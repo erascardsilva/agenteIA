@@ -12,15 +12,10 @@
 
     const labelMaps = {
         "voiceSettings.engine": {
-            kokoro: "Kokoro-82M (Local/Grátis)",
             openai: "OpenAI Premium (API Key)",
             native: "Nativo (Navegador)",
         },
-        "voiceSettings.voiceId": {
-            pf_dora: "Feminina PT [Offline]",
-            pm_alex: "Masculina PT [Offline]",
-            pm_santa: "Masculina PT (Santa) [Offline]",
-        },
+        "voiceSettings.voiceId": {},
         preferredProvider: {
             groq: "Groq (Llama 3 / Mixtral)",
             gemini: "Google Gemini (Flash/Pro)",
@@ -366,49 +361,7 @@
                         </div>
                     </div>
 
-                    {#if $configStore.voiceSettings.engine === "kokoro"}
-                        <div class="field">
-                            <label for="voice">Voz do Assistente (Neural)</label
-                            >
-                            <div class="custom-select" id="voice">
-                                <button
-                                    class="select-trigger"
-                                    on:click={(e) =>
-                                        toggleDropdown("voiceId", e)}
-                                >
-                                    <span
-                                        >{labelMaps["voiceSettings.voiceId"][
-                                            $configStore.voiceSettings.voiceId
-                                        ]}</span
-                                    >
-                                    <i
-                                        class="chevron"
-                                        class:open={openDropdown === "voiceId"}
-                                    ></i>
-                                </button>
-                                {#if openDropdown === "voiceId"}
-                                    <div class="options-container">
-                                        {#each Object.entries(labelMaps["voiceSettings.voiceId"]) as [val, label]}
-                                            <button
-                                                class="option"
-                                                class:selected={$configStore
-                                                    .voiceSettings.voiceId ===
-                                                    val}
-                                                on:click={() =>
-                                                    selectOption(
-                                                        "voiceSettings.voiceId",
-                                                        val,
-                                                    )}
-                                            >
-                                                <span class="dot"></span>
-                                                {label}
-                                            </button>
-                                        {/each}
-                                    </div>
-                                {/if}
-                            </div>
-                        </div>
-                    {:else if $configStore.voiceSettings.engine === "openai"}
+                    {#if $configStore.voiceSettings.engine === "openai"}
                         <div class="field">
                             <label for="voice">Voz do Assistente (OpenAI)</label
                             >
@@ -493,7 +446,7 @@
                             </li>
                             <li>
                                 <strong>Voz Neural:</strong> Motor de voz dual com
-                                OpenAI Premium ou Edge TTS gratuito de alta qualidade.
+                                OpenAI Premium ou Web Speech API local.
                             </li>
                             <li>
                                 <strong>Privacidade:</strong> Processamento focado

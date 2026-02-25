@@ -13,6 +13,10 @@ type AudioModule struct {
 	ApiKey string
 }
 
+func NewAudioModule(basePath string) *AudioModule {
+	return &AudioModule{}
+}
+
 func (m *AudioModule) TextToSpeech(ctx context.Context, text string, voice string) ([]byte, error) {
 	if m.ApiKey == "" {
 		return nil, fmt.Errorf("API Key não configurada para Áudio")
@@ -49,8 +53,3 @@ func (m *AudioModule) TextToSpeech(ctx context.Context, text string, voice strin
 }
 
 // Whisper STT via Groq (Grátis) ou OpenAI
-func (m *AudioModule) SpeechToText(ctx context.Context, audioData []byte, isGroq bool) (string, error) {
-	// Implementação simplificada de upload de multipart form data seria necessária aqui
-	// Para manter o exemplo curto, deixaremos como stub ou usaremos uma lib de áudio
-	return "STT não implementado completamente (requer multipart form data)", nil
-}

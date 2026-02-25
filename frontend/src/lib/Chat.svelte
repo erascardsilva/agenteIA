@@ -9,7 +9,6 @@
     } from "../../wailsjs/go/main/App";
     import * as runtime from "../../wailsjs/runtime/runtime";
     import { configStore } from "./store";
-    import { kokoro } from "./kokoro";
 
     marked.setOptions({
         breaks: true,
@@ -121,110 +120,15 @@
                 return;
             }
 
-            // Caso contrário, usa Kokoro Local ou OpenAI via backend
             const cleanText = text.replace(/[*#`_]/g, "");
 
-            if ($configStore.voiceSettings.engine === "kokoro") {
-                try {
-                    // Feedback de status do Kokoro Local
-                    kokoro.onError = (err) => alert("Erro Kokoro: " + err);
-
-                    // Quebrar o texto em sentenças e depois em fragmentos menores se necessário
-                    let chunks = cleanText.match(
-                        /[^.!?]+[.!?]+(?=\s|$)|[^.!?]+/g,
-                    ) || [cleanText];
-
-                    // Segunda camada de fragmentação: garantir que cada fragmento tenha no máximo 200 caracteres
-                    let finalChunks = [];
-                    for (const chunk of chunks) {
-                        if (chunk.length > 200) {
-                            // Quebra por espaço próximo ao limite de 200
-                            const words = chunk.split(" ");
-                            let currentSubChunk = "";
-                            for (const word of words) {
-                                if ((currentSubChunk + word).length > 200) {
-                                    finalChunks.push(currentSubChunk.trim());
-                                    currentSubChunk = word + " ";
-                                } else {
-                                    currentSubChunk += word + " ";
-                                }
-                            }
-                            if (currentSubChunk.trim())
-                                finalChunks.push(currentSubChunk.trim());
-                        } else {
-                            finalChunks.push(chunk.trim());
-                        }
-                    }
-
-                    let allAudioChunks = [];
-                    let samplingRate = 24000;
-
-                    for (let i = 0; i < finalChunks.length; i++) {
-                        const chunk = finalChunks[i];
-                        if (!chunk) continue;
-
-                        // Se o usuário mudou de mensagem ou parou o áudio, interrompe o loop
-                        if (currentPlayingMsg !== msgId) break;
-
-                        kokoro.onStatus = (msg) => {
-                            thinkingMessage = `Sintetizando parte ${i + 1} de ${finalChunks.length}...`;
-                            loading = true;
-                        };
-
-                        const result = await kokoro.speak(
-                            chunk,
-                            $configStore.voiceSettings.voiceId,
-                        );
-
-                        if (result && result.audio) {
-                            allAudioChunks.push(result.audio);
-                            samplingRate = result.sampling_rate;
-                        }
-                    }
-
-                    // Se o loop foi interrompido, não continua
-                    if (currentPlayingMsg !== msgId) return;
-
-                    loading = false;
-
-                    if (allAudioChunks.length === 0) {
-                        alert(
-                            "Não foi possível gerar áudio para esta mensagem.",
-                        );
-                        currentPlayingMsg = null;
-                        return;
-                    }
-
-                    // Concatenar todos os fragmentos de áudio (Float32Array)
-                    const totalLength = allAudioChunks.reduce(
-                        (acc, curr) => acc + curr.length,
-                        0,
-                    );
-                    const mergedAudio = new Float32Array(totalLength);
-                    let offset = 0;
-                    for (const chunk of allAudioChunks) {
-                        mergedAudio.set(chunk, offset);
-                        offset += chunk.length;
-                    }
-
-                    // Converter Float32Array para WAV para tocar no navegador
-                    const wavBuffer = encodeWAV(mergedAudio, samplingRate);
-                    const blob = new Blob([wavBuffer], { type: "audio/wav" });
-                    audioObject = new Audio(URL.createObjectURL(blob));
-                } catch (err) {
-                    alert("Erro no Kokoro Local: " + err);
-                    currentPlayingMsg = null;
-                    return;
-                }
-            } else {
-                const base64Audio = await TextToSpeech(cleanText);
-                if (!base64Audio) {
-                    alert("O sistema de áudio não retornou dados.");
-                    currentPlayingMsg = null;
-                    return;
-                }
-                audioObject = new Audio("data:audio/mp3;base64," + base64Audio);
+            const base64Audio = await TextToSpeech(cleanText);
+            if (!base64Audio) {
+                alert("O sistema de áudio não retornou dados.");
+                currentPlayingMsg = null;
+                return;
             }
+            audioObject = new Audio("data:audio/mp3;base64," + base64Audio);
             audioObject.onended = () => {
                 if (currentPlayingMsg === msgId) currentPlayingMsg = null;
             };
@@ -238,39 +142,6 @@
             alert("Erro na Voz do Jarvis: " + e);
             currentPlayingMsg = null;
         }
-    }
-
-    function encodeWAV(samples, sampleRate) {
-        const buffer = new ArrayBuffer(44 + samples.length * 2);
-        const view = new DataView(buffer);
-
-        const writeString = (offset, string) => {
-            for (let i = 0; i < string.length; i++) {
-                view.setUint8(offset + i, string.charCodeAt(i));
-            }
-        };
-
-        writeString(0, "RIFF");
-        view.setUint32(4, 36 + samples.length * 2, true);
-        writeString(8, "WAVE");
-        writeString(12, "fmt ");
-        view.setUint32(16, 16, true);
-        view.setUint16(20, 1, true);
-        view.setUint16(22, 1, true);
-        view.setUint32(24, sampleRate, true);
-        view.setUint32(28, sampleRate * 2, true);
-        view.setUint16(32, 2, true);
-        view.setUint16(34, 16, true);
-        writeString(36, "data");
-        view.setUint32(40, samples.length * 2, true);
-
-        let offset = 44;
-        for (let i = 0; i < samples.length; i++, offset += 2) {
-            const s = Math.max(-1, Math.min(1, samples[i]));
-            view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7fff, true);
-        }
-
-        return buffer;
     }
 
     async function scrollToBottom() {

@@ -11,6 +11,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -27,38 +28,35 @@ type App struct {
 // NewApp creates a new App application struct
 func NewApp() *App {
 	cfg, _ := config.LoadConfig()
-	return &App{
+	// Pegar o diretório atual para as rotas dos modelos
+	cwd, _ := os.Getwd()
+	app := &App{
 		config: cfg,
-		audio:  &audio.AudioModule{},
+		audio:  audio.NewAudioModule(cwd),
 	}
+	// Inicializa a key se houver
+	if key, ok := cfg.ApiKeys["openai"]; ok {
+		app.audio.ApiKey = key
+	} else if key, ok := cfg.ApiKeys["groq"]; ok {
+		app.audio.ApiKey = key
+	}
+	return app
 }
 
-// TextToSpeech converts text to base64 audio
 func (a *App) TextToSpeech(text string) (string, error) {
-	engine := a.config.VoiceSettings.Engine
-
-	var data []byte
-	var err error
-
-	if engine == "openai" {
-		if key, ok := a.config.ApiKeys["openai"]; ok && key != "" {
-			a.audio.ApiKey = key
-			data, err = a.audio.TextToSpeech(context.Background(), text, a.config.VoiceSettings.VoiceID)
-		} else {
-			return "", fmt.Errorf("requer OpenAI API Key para Voz Premium.")
+	fmt.Printf("[App] TextToSpeech (OpenAI) chamado...\n")
+	// Se for Kokoro, o frontend deve usar GenerateLocalAudio
+	// Mas mantemos suporte para OpenAI Fallback
+	if a.audio.ApiKey != "" {
+		b, err := a.audio.TextToSpeech(context.Background(), text, a.config.VoiceSettings.VoiceID)
+		if err != nil {
+			fmt.Printf("[App] Erro no OpenAI TTS: %v\n", err)
+			return "", err
 		}
-	} else if engine == "kokoro" {
-		// Kokoro é processado 100% no frontend, retornamos vazio aqui
-		return "", nil
-	} else {
-		return "", fmt.Errorf("motor [%s] não suportado no backend", engine)
+		// Precisamos converter []byte para base64 string para o wails
+		return base64.StdEncoding.EncodeToString(b), nil
 	}
-
-	if err != nil {
-		return "", fmt.Errorf("falha no áudio [%s]: %v", engine, err)
-	}
-
-	return base64.StdEncoding.EncodeToString(data), nil
+	return "", fmt.Errorf("API Key de áudio (OpenAI/Groq) não configurada ou use Kokoro Local")
 }
 
 // startup is called when the app starts. The context is saved
@@ -248,18 +246,33 @@ func (a *App) SendMessage(content string) (string, error) {
 		var toolCalls []ai.ToolCall
 		var err error
 
-		// Retry logic para Rate Limit (especialmente Groq Free)
+		// Retry logic para Rate Limit e Fallback de Ferramentas
 		for retry := 0; retry < 3; retry++ {
 			response, toolCalls, err = provider.Chat(context.Background(), messages, systemPrompt, tools)
 			if err == nil {
 				break
 			}
+
+			// Se o erro for relacionado a ferramentas não suportadas, tenta sem elas
+			if strings.Contains(err.Error(), "tools") || strings.Contains(err.Error(), "function") {
+				fmt.Printf("[App] Modelo não suporta ferramentas. Tentando sem elas... (%d/3)\n", retry+1)
+				response, toolCalls, err = provider.Chat(context.Background(), messages, systemPrompt, nil)
+				if err == nil {
+					break
+				}
+			}
+
 			// Se for erro de rate limit (429), espera um pouco e tenta de novo
 			if strings.Contains(err.Error(), "rate_limit_exceeded") || strings.Contains(err.Error(), "429") {
 				fmt.Printf("Rate limit atingido, tentando novamente em 2s... (%d/3)\n", retry+1)
 				time.Sleep(2 * time.Second)
 				continue
 			}
+			// Se chegamos aqui e err != nil, é um erro fatal para este provider
+			break
+		}
+
+		if err != nil {
 			return "", err
 		}
 

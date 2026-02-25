@@ -8,7 +8,7 @@ function createConfigStore() {
         apiKeys: { groq: "", gemini: "", openai: "", deepseek: "", openrouter: "" },
         preferredProvider: "groq",
         preferredModel: "",
-        voiceSettings: { enabled: false, voiceId: "af_heart", engine: "kokoro" },
+        voiceSettings: { enabled: false, voiceId: "alloy", engine: "openai" },
         context: {
             humor: "Prestativo",
             unlockModels: false,
