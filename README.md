@@ -79,21 +79,33 @@ AI Agent supports two audio modes: **OpenAI Premium (Cloud)** and **Native (Loca
 # Install Wails if you don't have it
 go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
-# Build for Linux
+# Build for Linux (Generic)
 wails build -platform linux/amd64
+
+# Build for Linux (Flatpak - Recommended)
+# Requires flatpak-builder and GNOME 45 SDK
+./build-flatpak.sh
 
 # Build for Windows (requires Mingw/NSIS on Linux for cross-compile)
 wails build -platform windows/amd64 -nsis
+```
+
+### 🐧 Linux (Flatpak Installation)
+To install the generated Flatpak bundle:
+```bash
+flatpak install --user build/agenteIA.flatpak
+flatpak run org.erascardsilva.agenteIA
 ```
 
 ---
 
 ## 📦 Executables
 
-The compiled executables are available in the `build/bin/` folder.
+The compiled executables are available in the `build/` folder.
 *   `agenteIA.exe` (Windows Executable)
 *   `agente-ia-amd64-installer.exe` (Windows Installer)
-*   `agenteIA` (Linux Executable)
+*   `agenteIA` (Linux Binary)
+*   `agenteIA.flatpak` (Linux Flatpak Bundle)
 
 ---
 

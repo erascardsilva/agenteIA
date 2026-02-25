@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.erascardsilva.agenteIA</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>AgenteIA</name>
+  <summary>Assistente IA local e na nuvem</summary>
+  <description>
+    <p>
+      O AgenteIA é uma aplicação construída com Wails que permite interagir com diversos modelos de Inteligência Artificial (OpenAI, Gemini, Groq, etc) e suporta Text-to-Speech nativo.
+    </p>
+  </description>
+  <launchable type="desktop-id">org.erascardsilva.agenteIA.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Tela principal do AgenteIA</caption>
+      <image>https://raw.githubusercontent.com/erascardsilva/agenteIA/main/build/imagem.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/erascardsilva/agenteIA</url>
+</component>
