@@ -1,3 +1,4 @@
+<!-- Erasmo Cardoso - Dev -->
 <script>
     import { onMount, tick } from "svelte";
     import { marked } from "marked";

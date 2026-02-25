@@ -8,12 +8,14 @@
 
   let currentTab = "chat";
   let showSettings = false;
+  let settingsTab = "config";
 
   onMount(async () => {
     await configStore.load();
   });
 
-  function toggleSettings() {
+  function toggleSettings(tab = "config") {
+    settingsTab = tab;
     showSettings = !showSettings;
   }
 </script>
@@ -69,7 +71,10 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="settings-trigger" on:click={toggleSettings}>
+      <button
+        class="settings-trigger"
+        on:click={() => toggleSettings("config")}
+      >
         <svg
           viewBox="0 0 24 24"
           width="20"
@@ -85,6 +90,22 @@
         </svg>
         Configurações
       </button>
+
+      <button class="settings-trigger" on:click={() => toggleSettings("about")}>
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        Sobre
+      </button>
     </div>
   </aside>
 
@@ -96,7 +117,7 @@
     {/if}
   </section>
 
-  <Settings bind:visible={showSettings} />
+  <Settings bind:visible={showSettings} bind:currentTab={settingsTab} />
 </main>
 
 <style>
@@ -165,8 +186,11 @@
   }
 
   .sidebar-footer {
-    padding-top: 20px;
+    padding-top: 10px;
     border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .settings-trigger {

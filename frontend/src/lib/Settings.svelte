@@ -4,7 +4,7 @@
     import { onMount } from "svelte";
 
     export let visible = false;
-    let currentTab = "config"; // 'config' ou 'about'
+    export let currentTab = "config"; // 'config' ou 'about'
 
     // Erasmo Cardoso - Dev
     // Lógica para dropdowns customizados
@@ -418,72 +418,80 @@
             {:else}
                 <section class="settings-content about-content">
                     <div class="about-hero">
-                        <h3>Jarvis AI</h3>
-                        <p>Assistente Técnico Avançado</p>
-                    </div>
-
-                    <div class="about-section">
-                        <h4>🚀 O que eu faço?</h4>
+                        <div class="logo-icon-large">&lt; IA &gt;</div>
+                        <h3>Agente IA</h3>
                         <p>
-                            Sou um assistente multimodal projetado para
-                            automação e suporte técnico. Posso processar texto,
-                            visão e voz, além de interagir diretamente com o seu
-                            sistema operacional.
+                            O poder da inteligência artificial no seu controle.
                         </p>
                     </div>
 
-                    <div class="about-section">
-                        <h4>🛠️ Recursos Principais</h4>
-                        <ul>
-                            <li>
-                                <strong>Multi-Modelos:</strong> Suporte nativo a
-                                Gemini 3.1, Groq, DeepSeek e OpenRouter.
-                            </li>
-                            <li>
-                                <strong>Interação de Sistema:</strong> Leitura/Escrita
-                                de arquivos, execução de comandos e automação de
-                                e-mails.
-                            </li>
-                            <li>
-                                <strong>Voz Neural:</strong> Motor de voz dual com
-                                OpenAI Premium ou Web Speech API local.
-                            </li>
-                            <li>
-                                <strong>Privacidade:</strong> Processamento focado
-                                em segurança com armazenamento local de histórico
-                                e chaves.
-                            </li>
-                        </ul>
+                    <div class="about-section highlight">
+                        <h4>🚀 O que este App faz?</h4>
+                        <p>
+                            Este é um ecossistema de IA projetado para ser seu
+                            braço direito. Ele integra os modelos mais poderosos
+                            do mundo diretamente no seu fluxo de trabalho,
+                            permitindo uma interação fluida e produtiva com o
+                            seu computador.
+                        </p>
                     </div>
 
-                    <div class="about-section">
-                        <h4>🔑 Como adicionar API Keys?</h4>
-                        <ol>
-                            <li>
-                                Vá na aba <strong>Configurações</strong> acima.
-                            </li>
-                            <li>
-                                Obtenha sua chave no site do provedor (ex: <a
-                                    href="https://console.groq.com/keys"
-                                    target="_blank">Groq</a
-                                >
-                                ou
-                                <a
-                                    href="https://aistudio.google.com/app/apikey"
-                                    target="_blank">Gemini</a
-                                >).
-                            </li>
-                            <li>
-                                Cole a chave no campo correspondente e clique em <strong
-                                    >Salvar Configurações</strong
-                                >.
-                            </li>
-                        </ol>
+                    <div class="about-grid">
+                        <div class="about-card">
+                            <div class="card-icon">🔓</div>
+                            <h5>Detravas de IA</h5>
+                            <p>
+                                Liberdade total para os modelos, removendo
+                                filtros restritivos para respostas mais diretas
+                                e criativas.
+                            </p>
+                        </div>
+                        <div class="about-card">
+                            <div class="card-icon">🌐</div>
+                            <h5>Multi-LLM</h5>
+                            <p>
+                                Use diversas IAs (Gemini, Llama 3, GPT-4o,
+                                DeepSeek) via API em uma única interface.
+                            </p>
+                        </div>
+                        <div class="about-card">
+                            <div class="card-icon">🧠</div>
+                            <h5>Contexto & Memória</h5>
+                            <p>
+                                Dê nome à sua IA e defina contextos específicos
+                                que são guardados em nosso banco de dados.
+                            </p>
+                        </div>
+                        <div class="about-card">
+                            <div class="card-icon">💻</div>
+                            <h5>Poder Total</h5>
+                            <p>
+                                A IA tem a possibilidade de realizar qualquer
+                                tarefa no seu computador através de comandos e
+                                scripts.
+                            </p>
+                        </div>
+                        <div class="about-card">
+                            <div class="card-icon">🎭</div>
+                            <h5>Ajustes de Humor</h5>
+                            <p>
+                                Personalize a personalidade da IA: do prestativo
+                                ao sarcástico, você decide o tom da conversa.
+                            </p>
+                        </div>
+                        <div class="about-card">
+                            <div class="card-icon">📂</div>
+                            <h5>Base de Conhecimento</h5>
+                            <p>
+                                Banco de dados inteligente que armazena suas
+                                configurações e contextos para uso futuro.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="about-footer">
                         <div class="signature">Erasmo Cardoso - Dev</div>
-                        <div class="version">v2.1.0 - Era 2026</div>
+                        <div class="version">v2.5.0 - Era 2026</div>
                     </div>
                 </section>
             {/if}
@@ -937,36 +945,100 @@
         color: #cccccc;
     }
 
-    .about-section ul,
-    .about-section ol {
-        padding-left: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+    .about-section h4 {
+        color: var(--primary);
+        margin-bottom: 12px;
+        font-size: 18px;
     }
 
-    .about-section li {
+    .about-content {
+        gap: 32px;
+    }
+
+    .about-hero {
+        text-align: center;
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .logo-icon-large {
+        background: var(--primary);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 24px;
+        box-shadow: 0 10px 30px rgba(88, 166, 255, 0.3);
+    }
+
+    .about-hero h3 {
+        font-size: 28px;
+        margin-bottom: 4px;
+        color: white;
+    }
+
+    .about-hero p {
+        color: var(--text-muted);
+        font-size: 16px;
+    }
+
+    .about-section.highlight {
+        background: rgba(88, 166, 255, 0.1);
+        padding: 24px;
+        border-radius: 20px;
+        border: 1px dashed rgba(88, 166, 255, 0.3);
+        margin-bottom: 10px;
+    }
+
+    .about-section h4 {
+        color: var(--primary);
+        margin-bottom: 12px;
+        font-size: 18px;
+    }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+
+    .about-card {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .about-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-5px);
+        border-color: rgba(88, 166, 255, 0.3);
+    }
+
+    .card-icon {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .about-card h5 {
+        color: white;
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .about-card p {
         font-size: 13px;
-        color: #bbbbbb;
+        color: var(--text-muted);
         line-height: 1.5;
     }
 
-    .about-section strong {
-        color: var(--primary);
-    }
-
-    .about-section a {
-        color: var(--primary);
-        text-decoration: none;
-    }
-
-    .about-section a:hover {
-        text-decoration: underline;
-    }
-
     .about-footer {
-        margin-top: 10px;
-        padding-top: 20px;
+        margin-top: 20px;
+        padding-top: 24px;
         border-top: 1px solid rgba(255, 255, 255, 0.05);
         display: flex;
         justify-content: space-between;
@@ -974,18 +1046,14 @@
     }
 
     .signature {
-        font-family: "Inter", sans-serif;
-        font-weight: 700;
-        color: white;
-        font-style: italic;
-        background: linear-gradient(90deg, #58a6ff, #bc85ff);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-family: "Courier New", Courier, monospace;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 14px;
     }
 
     .version {
-        font-size: 11px;
+        font-size: 12px;
         color: rgba(255, 255, 255, 0.3);
     }
 </style>

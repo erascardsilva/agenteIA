@@ -1,3 +1,4 @@
+// Erasmo Cardoso - Dev
 package audio
 
 import (

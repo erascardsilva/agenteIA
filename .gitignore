@@ -1,3 +1,3 @@
-build/bin
+# build/bin (Removido para permitir binários no repo)
 frontend/dist
 frontend/node_modules
