@@ -1,0 +1,63 @@
+// Erasmo Cardoso - Dev
+import { writable } from 'svelte/store';
+import { GetConfig, SaveConfig } from '../../wailsjs/go/main/App';
+
+function createConfigStore() {
+    const { subscribe, set, update } = writable({
+        assistantName: "Jarvis",
+        apiKeys: { groq: "", gemini: "", openai: "", deepseek: "", openrouter: "" },
+        preferredProvider: "groq",
+        preferredModel: "",
+        voiceSettings: { enabled: false, voiceId: "af_heart", engine: "kokoro" },
+        context: {
+            humor: "Prestativo",
+            unlockModels: false,
+            systemProcess: false,
+            userNome: "",
+            userProfissao: "",
+            userIdade: "",
+            funcoes: "",
+            regras: ""
+        },
+    });
+
+    return {
+        subscribe,
+        set,
+        update,
+        load: async () => {
+            const cfg = await GetConfig();
+            if (cfg) {
+                update(current => {
+                    return {
+                        ...current,
+                        ...cfg,
+                        apiKeys: { ...current.apiKeys, ...(cfg.apiKeys || {}) },
+                        context: { ...current.context, ...(cfg.context || {}) },
+                        voiceSettings: { ...current.voiceSettings, ...(cfg.voiceSettings || {}) }
+                    };
+                });
+            }
+        },
+        save: async (newConfig) => {
+            set(newConfig);
+            await SaveConfig(newConfig);
+        },
+        updateField: async (path, value) => {
+            let updatedConfig;
+            update(current => {
+                const keys = path.split('.');
+                let target = current;
+                for (let i = 0; i < keys.length - 1; i++) {
+                    target = target[keys[i]];
+                }
+                target[keys[keys.length - 1]] = value;
+                updatedConfig = { ...current };
+                return updatedConfig;
+            });
+            await SaveConfig(updatedConfig);
+        }
+    };
+}
+
+export const configStore = createConfigStore();

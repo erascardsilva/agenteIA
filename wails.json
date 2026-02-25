@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "agente-ia",
+  "outputfilename": "agenteIA",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "erascardsilva",
+    "email": "erasmo@vmi-informatica.com.br"
+  }
+}
