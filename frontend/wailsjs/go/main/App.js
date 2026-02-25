@@ -14,12 +14,24 @@ export function GetConfig() {
   return window['go']['main']['App']['GetConfig']();
 }
 
+export function GetSystemVoices() {
+  return window['go']['main']['App']['GetSystemVoices']();
+}
+
 export function SaveConfig(arg1) {
   return window['go']['main']['App']['SaveConfig'](arg1);
 }
 
 export function SendMessage(arg1) {
   return window['go']['main']['App']['SendMessage'](arg1);
+}
+
+export function SpeakLinux(arg1, arg2) {
+  return window['go']['main']['App']['SpeakLinux'](arg1, arg2);
+}
+
+export function StopLinux() {
+  return window['go']['main']['App']['StopLinux']();
 }
 
 export function TextToSpeech(arg1) {

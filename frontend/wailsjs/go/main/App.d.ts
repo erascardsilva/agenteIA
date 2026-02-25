@@ -8,8 +8,14 @@ export function GetChatHistory(arg1:number):Promise<Array<Record<string, string>
 
 export function GetConfig():Promise<config.Config>;
 
+export function GetSystemVoices():Promise<Array<string>>;
+
 export function SaveConfig(arg1:config.Config):Promise<void>;
 
 export function SendMessage(arg1:string):Promise<string>;
+
+export function SpeakLinux(arg1:string,arg2:string):Promise<void>;
+
+export function StopLinux():Promise<void>;
 
 export function TextToSpeech(arg1:string):Promise<string>;

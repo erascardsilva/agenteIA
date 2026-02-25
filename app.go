@@ -59,6 +59,56 @@ func (a *App) TextToSpeech(text string) (string, error) {
 	return "", fmt.Errorf("API Key de áudio (OpenAI/Groq) não configurada ou use Kokoro Local")
 }
 
+// SpeakLinux executa spd-say no sistema de forma assíncrona
+func (a *App) SpeakLinux(text, voice string) error {
+	fmt.Printf("[App] SpeakLinux chamado com voz: %s\n", voice)
+	// Limpar caracteres que podem causar problemas no comando
+	cleanText := strings.ReplaceAll(text, "\"", "")
+	cleanText = strings.ReplaceAll(cleanText, "`", "")
+
+	args := []string{"-e", cleanText}
+	if voice != "" {
+		args = append(args, "-w", voice) // -w ou -i dependendo da versão, mas -L mostra NAME
+	}
+
+	// Executamos em uma goroutine para não travar o frontend
+	go func() {
+		system.ExecuteCommand(fmt.Sprintf("spd-say \"%s\" %s", cleanText, func() string {
+			if voice != "" {
+				return "-i " + voice
+			}
+			return ""
+		}()))
+	}()
+
+	return nil
+}
+
+// GetSystemVoices retorna a lista de vozes disponíveis no spd-say
+func (a *App) GetSystemVoices() ([]string, error) {
+	res, err := system.ExecuteCommand("spd-say -L")
+	if err != nil {
+		return nil, err
+	}
+
+	lines := strings.Split(res, "\n")
+	var voices []string
+	for _, line := range lines {
+		fields := strings.Fields(line)
+		if len(fields) >= 1 && fields[0] != "NAME" && !strings.Contains(line, "----") {
+			voices = append(voices, fields[0])
+		}
+	}
+	return voices, nil
+}
+
+// StopLinux cancela todas as mensagens do spd-say
+func (a *App) StopLinux() error {
+	fmt.Println("[App] StopLinux chamado")
+	_, err := system.ExecuteCommand("spd-say -C")
+	return err
+}
+
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {

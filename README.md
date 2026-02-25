@@ -21,6 +21,7 @@ This project was built using the following cutting-edge technologies:
 *   **Audio & Voice:**
     *   **OpenAI TTS:** High-quality neural voices.
     *   **Web Speech API:** Native system voice synthesis.
+    *   **spd-say (Linux):** Direct integration with the system's speech engine for local voices.
 *   **Database:** SQLite (Contexts, History, and Settings).
 
 ---
@@ -62,7 +63,7 @@ AI Agent supports two audio modes: **OpenAI Premium (Cloud)** and **Native (Loca
 
 *   **Windows:** Native audio uses Microsoft SAPI/Edge voices, which are very natural and fast.
 *   **macOS:** Uses premium Apple voices (like Siri and Alex), providing an excellent experience with no delay.
-*   **Linux:** Native audio depends on `speech-dispatcher`. It may sound more robotic depending on the installed distribution. **Tip:** On Linux, use the **OpenAI Premium** engine for perfect human voices.
+*   **Linux:** Native audio supports **Web Speech API** and **spd-say (Local)**. Using `spd-say` allows the app to use voices like *Letícia* and other system-wide speech engines directly.
 
 ---
 
@@ -81,8 +82,8 @@ go install github.com/wailsapp/wails/v2/cmd/wails@latest
 # Build for Linux
 wails build -platform linux/amd64
 
-# Build for Windows (requires Mingw on Linux for cross-compile)
-wails build -platform windows/amd64
+# Build for Windows (requires Mingw/NSIS on Linux for cross-compile)
+wails build -platform windows/amd64 -nsis
 ```
 
 ---
@@ -90,8 +91,9 @@ wails build -platform windows/amd64
 ## 📦 Executables
 
 The compiled executables are available in the `build/bin/` folder.
-*   `agenteIA.exe` (Windows)
-*   `agenteIA` (Linux)
+*   `agenteIA.exe` (Windows Executable)
+*   `agente-ia-amd64-installer.exe` (Windows Installer)
+*   `agenteIA` (Linux Executable)
 
 ---
 

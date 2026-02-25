@@ -1,5 +1,6 @@
 <!-- Erasmo Cardoso - Dev -->
 <script>
+    import { GetSystemVoices } from "../../wailsjs/go/main/App";
     import { configStore } from "./store";
     import { onMount } from "svelte";
 
@@ -14,6 +15,7 @@
         "voiceSettings.engine": {
             openai: "OpenAI Premium (API Key)",
             native: "Nativo (Navegador)",
+            linux_local: "Linux (spd-say / Local)",
         },
         "voiceSettings.voiceId": {},
         preferredProvider: {
@@ -36,9 +38,25 @@
         openDropdown = null;
     }
 
-    onMount(() => {
+    let systemVoices = [];
+
+    async function loadSystemVoices() {
+        try {
+            const voices = await GetSystemVoices();
+            if (voices) systemVoices = voices;
+        } catch (e) {
+            console.error("Erro ao carregar vozes do sistema:", e);
+        }
+    }
+
+    onMount(async () => {
         const handleOutsideClick = () => (openDropdown = null);
         window.addEventListener("click", handleOutsideClick);
+
+        if ($configStore.voiceSettings.engine === "linux_local") {
+            await loadSystemVoices();
+        }
+
         return () => window.removeEventListener("click", handleOutsideClick);
     });
     async function save() {
@@ -376,6 +394,40 @@
                                 <option value="nova">Nova</option>
                                 <option value="shimmer">Shimmer</option>
                             </select>
+                        </div>
+                    {/if}
+
+                    {#if $configStore.voiceSettings.engine === "linux_local"}
+                        <div class="field">
+                            <label for="voiceLinux"
+                                >Voz do Sistema (Linux)</label
+                            >
+                            <select
+                                id="voiceLinux"
+                                bind:value={$configStore.voiceSettings.voiceId}
+                            >
+                                <option value="">Padrão do Sistema</option>
+                                {#each systemVoices as voice}
+                                    <option value={voice}>{voice}</option>
+                                {/each}
+                            </select>
+                            <button
+                                class="refresh-btn"
+                                on:click|preventDefault={loadSystemVoices}
+                                title="Atualizar Lista"
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    width="14"
+                                    height="14"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                                    ></path>
+                                </svg>
+                                Atualizar Vozes
+                            </button>
                         </div>
                     {/if}
 
@@ -781,6 +833,28 @@
         background: #121212;
         color: white;
         padding: 12px;
+    }
+
+    .refresh-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-muted);
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 4px;
+        width: fit-content;
+    }
+
+    .refresh-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--primary);
+        border-color: var(--primary);
     }
 
     .field input:hover,

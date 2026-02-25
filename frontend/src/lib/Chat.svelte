@@ -7,6 +7,8 @@
         GetChatHistory,
         ClearChatHistory,
         TextToSpeech,
+        SpeakLinux,
+        StopLinux,
     } from "../../wailsjs/go/main/App";
     import * as runtime from "../../wailsjs/runtime/runtime";
     import { configStore } from "./store";
@@ -70,6 +72,8 @@
     async function stopAudio() {
         if ($configStore.voiceSettings.engine === "native") {
             window.speechSynthesis.cancel();
+        } else if ($configStore.voiceSettings.engine === "linux_local") {
+            StopLinux();
         } else if (audioObject) {
             audioObject.pause();
             audioObject.currentTime = 0;
@@ -118,6 +122,21 @@
                 } else {
                     speakNow();
                 }
+                return;
+            }
+
+            // Se for motor Linux (Local), usamos o backend Go -> spd-say
+            if ($configStore.voiceSettings.engine === "linux_local") {
+                const cleanText = text.replace(/[*#`_]/g, "");
+                await SpeakLinux(
+                    cleanText,
+                    $configStore.voiceSettings.voiceId || "",
+                );
+                // Como spd-say é assíncrono no backend, resetamos o ícone depois de um tempo estimado ou imediatamente
+                // Por simplicidade, resetamos após 3 segundos ou deixamos o usuário parar manual se implementarmos o stop
+                setTimeout(() => {
+                    if (currentPlayingMsg === msgId) currentPlayingMsg = null;
+                }, 3000); // Estimativa básica
                 return;
             }
 
