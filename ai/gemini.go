@@ -188,3 +188,44 @@ func (p *GeminiProvider) Chat(ctx context.Context, messages []Message, systemPro
 func (p *GeminiProvider) GetName() string {
 	return "Gemini"
 }
+
+func ListGeminiModels(apiKey string) ([]string, error) {
+	ctx := context.Background()
+	client, err := genai.NewClient(ctx, option.WithAPIKey(apiKey))
+	if err != nil {
+		return nil, err
+	}
+	defer client.Close()
+
+	var models []string
+	iter := client.ListModels(ctx)
+	for {
+		m, err := iter.Next()
+		if err != nil {
+			break
+		}
+		// Filtrar apenas modelos que suportam geração de conteúdo
+		supportsGenerate := false
+		for _, op := range m.SupportedGenerationMethods {
+			if op == "generateContent" {
+				supportsGenerate = true
+				break
+			}
+		}
+
+		if supportsGenerate {
+			name := strings.TrimPrefix(m.Name, "models/")
+
+			// Filtrar apenas modelos modernos que começam com "gemini-"
+			// e evitar modelos de treinamento ou versões "vision" isoladas que não são para chat direto.
+			isGemini := strings.HasPrefix(strings.ToLower(name), "gemini-")
+			isTuning := strings.Contains(strings.ToLower(name), "tuned")
+
+			if isGemini && !isTuning {
+				models = append(models, name)
+			}
+		}
+	}
+
+	return models, nil
+}

@@ -4,6 +4,8 @@ import {config} from '../models';
 
 export function ClearChatHistory():Promise<void>;
 
+export function GetAvailableModels(arg1:string):Promise<Array<string>>;
+
 export function GetChatHistory(arg1:number):Promise<Array<Record<string, string>>>;
 
 export function GetConfig():Promise<config.Config>;

@@ -169,6 +169,14 @@ func (a *App) SendMessage(content string) (string, error) {
 
 	humorBase := "⚠️ PERSONALIDADE OBRIGATÓRIA: Seu humor atual é " + a.config.Context.Humor + ". Você deve responder estritamente neste tom, usando o vocabulário e a atitude condizentes com esse humor. NÃO saia desse personagem. "
 
+	langPrompt := "🌐 IDIOMA DE COMUNICAÇÃO: Você deve responder OBRIGATORIAMENTE em "
+	if a.config.Language == "pt-BR" {
+		langPrompt += "Português (Brasil)."
+	} else {
+		langPrompt += "Inglês (English)."
+	}
+	systemPrompt += langPrompt + " "
+
 	// Contexto do Agente Ideal
 	agentContext := ""
 	if c := a.config.Context; c.UserNome != "" || c.UserProfissao != "" || c.Regras != "" {
@@ -434,4 +442,44 @@ func (a *App) GetChatHistory(limit int) ([]map[string]string, error) {
 // ClearChatHistory deletes all chat messages
 func (a *App) ClearChatHistory() error {
 	return db.ClearHistory()
+}
+
+// GetAvailableModels retorna a lista de modelos disponíveis para o provedor selecionado
+func (a *App) GetAvailableModels(provider string) ([]string, error) {
+	fmt.Printf("[App] GetAvailableModels chamado para provedor: %s\n", provider)
+
+	switch provider {
+	case "gemini":
+		key := a.config.ApiKeys["gemini"]
+		if key == "" {
+			return nil, fmt.Errorf("API Key do Gemini não configurada")
+		}
+		return ai.ListGeminiModels(key)
+	case "groq":
+		key := a.config.ApiKeys["groq"]
+		if key == "" {
+			return nil, fmt.Errorf("API Key do Groq não configurada")
+		}
+		return ai.ListOpenAIModels("https://api.groq.com/openai/v1", key)
+	case "openai":
+		key := a.config.ApiKeys["openai"]
+		if key == "" {
+			return nil, fmt.Errorf("API Key da OpenAI não configurada")
+		}
+		return ai.ListOpenAIModels("https://api.openai.com/v1", key)
+	case "deepseek":
+		key := a.config.ApiKeys["deepseek"]
+		if key == "" {
+			return nil, fmt.Errorf("API Key do DeepSeek não configurada")
+		}
+		return ai.ListOpenAIModels("https://api.deepseek.com", key)
+	case "openrouter":
+		key := a.config.ApiKeys["openrouter"]
+		if key == "" {
+			return nil, fmt.Errorf("API Key do OpenRouter não configurada")
+		}
+		return ai.ListOpenAIModels("https://openrouter.ai/api/v1", key)
+	default:
+		return nil, fmt.Errorf("provedor %s não suporta listagem dinâmica ou não é reconhecido", provider)
+	}
 }

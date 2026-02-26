@@ -13,6 +13,7 @@ type Config struct {
 	PreferredModel    string            `json:"preferredModel"`
 	VoiceSettings     VoiceSettings     `json:"voiceSettings"`
 	Context           ContextSettings   `json:"context"`
+	Language          string            `json:"language"` // "en", "pt-BR"
 }
 
 type VoiceSettings struct {
@@ -46,6 +47,7 @@ func LoadConfig() (*Config, error) {
 			PreferredModel:    "llama-3.3-70b-versatile",
 			VoiceSettings:     VoiceSettings{Enabled: false, Engine: "kokoro", VoiceID: "af_heart"},
 			Context:           ContextSettings{Humor: "Prestativo", UnlockModels: false},
+			Language:          "en",
 		}, nil
 	}
 

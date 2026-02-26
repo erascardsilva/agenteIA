@@ -49,6 +49,7 @@ export namespace config {
 	    preferredModel: string;
 	    voiceSettings: VoiceSettings;
 	    context: ContextSettings;
+	    language: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Config(source);
@@ -62,6 +63,7 @@ export namespace config {
 	        this.preferredModel = source["preferredModel"];
 	        this.voiceSettings = this.convertValues(source["voiceSettings"], VoiceSettings);
 	        this.context = this.convertValues(source["context"], ContextSettings);
+	        this.language = source["language"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

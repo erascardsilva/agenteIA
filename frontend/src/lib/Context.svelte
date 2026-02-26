@@ -1,6 +1,7 @@
 <!-- Erasmo Cardoso - Dev -->
 <script>
     import { configStore } from "./store";
+    import { t } from "./i18n";
 
     async function updateHumor(h) {
         $configStore.context.humor = h;
@@ -14,16 +15,15 @@
 
 <div class="context-container fade-in">
     <header>
-        <h2>Contexto e Personalidade</h2>
+        <h2>{$t("context.header.title")}</h2>
         <p>
-            Ajuste como o assistente deve se comportar e o nível de acesso ao
-            sistema.
+            {$t("context.header.subtitle")}
         </p>
     </header>
 
     <div class="context-grid">
         <div class="card glass">
-            <h3>Humor da IA</h3>
+            <h3>{$t("context.cards.mood.title")}</h3>
             <div class="humor-options">
                 {#each ["Prestativo", "Sarcástico", "Profissional", "Amigável", "Direto", "Zombeteiro"] as h}
                     <button
@@ -32,21 +32,18 @@
                             : ''}"
                         on:click={() => updateHumor(h)}
                     >
-                        {h}
+                        {$t("settings.moods." + h)}
                     </button>
                 {/each}
             </div>
         </div>
 
         <div class="card glass">
-            <h3>Segurança e Filtros</h3>
+            <h3>{$t("context.cards.security.title")}</h3>
             <div class="toggle-row">
                 <div class="info">
-                    <strong>Desligar Travas de Modelos</strong>
-                    <span
-                        >Tenta ignorar filtros morais e de segurança da IA
-                        (System Prompt).</span
-                    >
+                    <strong>{$t("context.cards.security.unlock_title")}</strong>
+                    <span>{$t("context.cards.security.unlock_desc")}</span>
                 </div>
                 <input
                     type="checkbox"
@@ -57,11 +54,9 @@
 
             <div class="toggle-row">
                 <div class="info">
-                    <strong>Acesso total ao Processamento</strong>
-                    <span
-                        >Permite que a IA analise processos em tempo real
-                        (Experimental).</span
+                    <strong>{$t("context.cards.security.process_title")}</strong
                     >
+                    <span>{$t("context.cards.security.process_desc")}</span>
                 </div>
                 <input
                     type="checkbox"
@@ -72,61 +67,82 @@
         </div>
 
         <div class="card glass agent-profile">
-            <h3>Perfil do Agente Ideal</h3>
+            <h3>{$t("context.cards.profile.title")}</h3>
             <div class="form-grid">
                 <div class="input-group">
-                    <label>Nome</label>
+                    <label for="userName"
+                        >{$t("context.cards.profile.name")}</label
+                    >
                     <input
+                        id="userName"
                         type="text"
                         bind:value={$configStore.context.userNome}
                         on:blur={toggleSetting}
-                        placeholder="Ex: Analista de Sistemas"
+                        placeholder={$t(
+                            "context.cards.profile.name_placeholder",
+                        )}
                     />
                 </div>
                 <div class="input-group">
-                    <label>Profissão</label>
+                    <label for="userProfession"
+                        >{$t("context.cards.profile.profession")}</label
+                    >
                     <input
+                        id="userProfession"
                         type="text"
                         bind:value={$configStore.context.userProfissao}
                         on:blur={toggleSetting}
-                        placeholder="Ex: Desenvolvedor Senior"
+                        placeholder={$t(
+                            "context.cards.profile.profession_placeholder",
+                        )}
                     />
                 </div>
                 <div class="input-group">
-                    <label>Idade</label>
+                    <label for="userAge"
+                        >{$t("context.cards.profile.age")}</label
+                    >
                     <input
+                        id="userAge"
                         type="text"
                         bind:value={$configStore.context.userIdade}
                         on:blur={toggleSetting}
-                        placeholder="Ex: 35 anos"
+                        placeholder={$t(
+                            "context.cards.profile.age_placeholder",
+                        )}
                     />
                 </div>
             </div>
             <div class="input-group">
-                <label>Funções Principais</label>
+                <label for="userFunctions"
+                    >{$t("context.cards.profile.functions")}</label
+                >
                 <input
+                    id="userFunctions"
                     type="text"
                     bind:value={$configStore.context.funcoes}
                     on:blur={toggleSetting}
-                    placeholder="Ex: Gerenciar arquivos e compilar código"
+                    placeholder={$t(
+                        "context.cards.profile.functions_placeholder",
+                    )}
                 />
             </div>
             <div class="input-group">
-                <label>Texto de Regras (Diretrizes)</label>
+                <label for="userRules"
+                    >{$t("context.cards.profile.rules")}</label
+                >
                 <textarea
+                    id="userRules"
                     bind:value={$configStore.context.regras}
                     on:blur={toggleSetting}
-                    placeholder="Ex: Nunca apagar arquivos sem avisar..."
+                    placeholder={$t("context.cards.profile.rules_placeholder")}
                 ></textarea>
             </div>
         </div>
 
         <div class="card glass info-card">
-            <h3>Dica de Contexto</h3>
+            <h3>{$t("context.cards.tips.title")}</h3>
             <p>
-                O humor altera o tom das respostas. O modo "Unlock" envia
-                instruções adicionais no System Prompt para contornar restrições
-                nativas do modelo.
+                {$t("context.cards.tips.text")}
             </p>
         </div>
     </div>

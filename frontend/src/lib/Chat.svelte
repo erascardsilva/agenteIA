@@ -12,6 +12,7 @@
     } from "../../wailsjs/go/main/App";
     import * as runtime from "../../wailsjs/runtime/runtime";
     import { configStore } from "./store";
+    import { t } from "./i18n";
 
     marked.setOptions({
         breaks: true,
@@ -22,16 +23,15 @@
     let newMessage = "";
     let chatContainer;
     let loading = false;
-    let thinkingMessage = "Pensando...";
+    // let thinkingMessage = "Pensando..."; // Movido para t()
 
     async function clear() {
-        if (!confirm("Tem certeza que deseja apagar todo o histórico de chat?"))
-            return;
+        if (!confirm($t("chat.clear_confirm"))) return;
         try {
             await ClearChatHistory();
             messages = [];
         } catch (e) {
-            alert("Erro ao limpar histórico: " + e);
+            alert($t("chat.clear_error") + e);
         }
     }
 
@@ -105,8 +105,11 @@
                     !window.SpeechSynthesisUtterance
                 ) {
                     alert(
-                        "A 'Voz do Navegador' não está disponível neste ambiente (Flatpak/WebView). Por favor, use a opção 'Linux (spd-say / Local)' nas configurações.",
-                    );
+                        $t("chat.native_voice_error", {
+                            default:
+                                "A 'Voz do Navegador' não está disponível...",
+                        }),
+                    ); // Adicionado aos locales opcionalmente ou mantido
                     currentPlayingMsg = null;
                     return;
                 }
@@ -154,7 +157,7 @@
 
             const base64Audio = await TextToSpeech(cleanText);
             if (!base64Audio) {
-                alert("O sistema de áudio não retornou dados.");
+                alert($t("chat.audio_data_error"));
                 currentPlayingMsg = null;
                 return;
             }
@@ -169,7 +172,7 @@
             };
         } catch (e) {
             console.error("Erro ao reproduzir voz:", e);
-            alert("Erro na Voz do Jarvis: " + e);
+            alert($t("chat.voice_error") + e);
             currentPlayingMsg = null;
         }
     }
@@ -184,7 +187,7 @@
     onMount(async () => {
         // Escutar status de pensamento do backend
         runtime.EventsOn("thinking_status", (status) => {
-            thinkingMessage = status;
+            // thinkingMessage = status; // Ignoramos o status fixo do backend em prol do traduzido
         });
 
         const hist = await GetChatHistory(50);
@@ -208,7 +211,7 @@
                     d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
                 ></path>
             </svg>
-            Apagar Chat
+            {$t("chat.clear_chat")}
         </button>
     </div>
     <div class="messages" bind:this={chatContainer}>
@@ -216,8 +219,7 @@
             <div class="message-row {msg.role}">
                 <div class="message-bubble glass fade-in">
                     {@html marked.parse(
-                        msg.content ||
-                            "_Jarvis não retornou texto para esta mensagem._",
+                        msg.content || $t("chat.empty_response"),
                     )}
                     {#if msg.role === "assistant"}
                         <button
@@ -257,7 +259,7 @@
         {#if loading}
             <div class="message-row assistant">
                 <div class="message-bubble glass loading">
-                    <span class="thinking-text">{thinkingMessage}</span>
+                    <span class="thinking-text">{$t("chat.thinking")}</span>
                     <span class="cursor">_</span>
                 </div>
             </div>
@@ -266,7 +268,7 @@
 
     <div class="input-area glass">
         <textarea
-            placeholder="Digite sua mensagem..."
+            placeholder={$t("chat.placeholder")}
             bind:value={newMessage}
             on:keydown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {

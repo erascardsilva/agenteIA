@@ -6,6 +6,10 @@ export function ClearChatHistory() {
   return window['go']['main']['App']['ClearChatHistory']();
 }
 
+export function GetAvailableModels(arg1) {
+  return window['go']['main']['App']['GetAvailableModels'](arg1);
+}
+
 export function GetChatHistory(arg1) {
   return window['go']['main']['App']['GetChatHistory'](arg1);
 }

@@ -1,0 +1,120 @@
+{
+    "sidebar": {
+        "chat": "Chat",
+        "context": "Context",
+        "settings": "Settings",
+        "about": "About",
+        "default_assistant_name": "Assistant"
+    },
+    "chat": {
+        "clear_chat": "Clear Chat",
+        "clear_history": "Clear History",
+        "clear_confirm": "Are you sure you want to clear the entire chat history?",
+        "clear_error": "Error clearing history: ",
+        "empty_response": "_Assistant did not return text for this message._",
+        "thinking": "Thinking...",
+        "placeholder": "Type your message...",
+        "voice_error": "Error playing voice: ",
+        "audio_data_error": "The audio system did not return data."
+    },
+    "settings": {
+        "title": "Settings",
+        "about_tab": "About",
+        "config_tab": "Configuration",
+        "assistant_name": "Assistant Name",
+        "assistant_name_placeholder": "Ex: Jarvis, Friday...",
+        "api_key": "API Key",
+        "mood": "Mood",
+        "preferred_provider": "Preferred Provider",
+        "model": "Model",
+        "model_placeholder": "Model name...",
+        "voice_engine": "Voice Engine",
+        "assistant_voice": "Assistant Voice (OpenAI)",
+        "system_voice": "System Voice (Linux)",
+        "default_system": "System Default",
+        "refresh_voices": "Refresh Voices",
+        "voice_enabled": "Enable Voice (Auto-Play)",
+        "unlock_models": "Disable Filters (Unlock Models)",
+        "save_settings": "Save Settings",
+        "vocal_engines": {
+            "openai": "OpenAI Premium (API Key)",
+            "native": "Native (Browser)",
+            "linux_local": "Linux (spd-say / Local)"
+        },
+        "moods": {
+            "Prestativo": "Helpful",
+            "Sarcástico": "Sarcastic",
+            "Profissional": "Professional",
+            "Amigável": "Friendly",
+            "Direto": "Direct",
+            "Zombeteiro": "Mocking"
+        }
+    },
+    "about": {
+        "description": "The power of artificial intelligence in your control.",
+        "what_does": "🚀 What does this App do?",
+        "what_does_text": "This is an AI ecosystem designed to be your right hand. It integrates the most powerful models in the world directly into your workflow, allowing fluid and productive interaction with your computer.",
+        "cards": {
+            "unlock": {
+                "title": "AI Unlocks",
+                "desc": "Total freedom for models, removing restrictive filters for more direct and creative responses."
+            },
+            "multi_llm": {
+                "title": "Multi-LLM",
+                "desc": "Use various AIs (Gemini, Llama 3, GPT-4o, DeepSeek) via API in a single interface."
+            },
+            "context": {
+                "title": "Context & Memory",
+                "desc": "Name your AI and define specific contexts that are kept in our database."
+            },
+            "total_power": {
+                "title": "Total Power",
+                "desc": "The AI has the possibility to perform any task on your computer through commands and scripts."
+            },
+            "mood_adjust": {
+                "title": "Mood Adjustments",
+                "desc": "Customize the AI personality: from helpful to sarcastic, you decide the tone of the conversation."
+            },
+            "kb": {
+                "title": "Knowledge Base",
+                "desc": "Intelligent database that stores your settings and contexts for future use."
+            }
+        },
+        "version": "v2.5.0 - Era 2026"
+    },
+    "context": {
+        "header": {
+            "title": "Context and Personality",
+            "subtitle": "Adjust how the assistant should behave and the level of system access."
+        },
+        "cards": {
+            "mood": {
+                "title": "AI Mood"
+            },
+            "security": {
+                "title": "Security & Filters",
+                "unlock_title": "Disable Model Locks",
+                "unlock_desc": "Attempts to bypass AI moral and safety filters (System Prompt).",
+                "process_title": "Full Processing Access",
+                "process_desc": "Allows AI to analyze real-time processes (Experimental)."
+            },
+            "profile": {
+                "title": "Ideal Agent Profile",
+                "name": "Name",
+                "name_placeholder": "Ex: Systems Analyst",
+                "profession": "Profession",
+                "profession_placeholder": "Ex: Senior Developer",
+                "age": "Age",
+                "age_placeholder": "Ex: 35 years old",
+                "functions": "Core Functions",
+                "functions_placeholder": "Ex: Manage files and compile code",
+                "rules": "Rules Text (Guidelines)",
+                "rules_placeholder": "Ex: Never delete files without warning..."
+            },
+            "tips": {
+                "title": "Context Tip",
+                "text": "Mood alters the tone of responses. 'Unlock' mode sends additional instructions in the System Prompt to bypass native model restrictions."
+            }
+        }
+    }
+}

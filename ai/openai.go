@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
+	"time"
 )
 
 type OpenAIProvider struct {
@@ -101,4 +103,58 @@ func (p *OpenAIProvider) Chat(ctx context.Context, messages []Message, systemPro
 
 func (p *OpenAIProvider) GetName() string {
 	return "OpenAI/Groq"
+}
+
+func ListOpenAIModels(url, apiKey string) ([]string, error) {
+	// Remover /chat/completions se estiver na URL e usar /models
+	baseUrl := strings.TrimSuffix(url, "/chat/completions")
+	modelsUrl := baseUrl + "/models"
+
+	req, err := http.NewRequest("GET", modelsUrl, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+apiKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("API error: status %d", resp.StatusCode)
+	}
+
+	var result struct {
+		Data []struct {
+			ID string `json:"id"`
+		} `json:"data"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	var models []string
+	nonChatKeywords := []string{"whisper", "dall-e", "tts-", "embedding", "babbage", "davinci", "curie", "ada", "-shts-", "canary"}
+
+	for _, m := range result.Data {
+		id := strings.ToLower(m.ID)
+		isNonChat := false
+		for _, kw := range nonChatKeywords {
+			if strings.Contains(id, kw) {
+				isNonChat = true
+				break
+			}
+		}
+
+		if !isNonChat {
+			models = append(models, m.ID)
+		}
+	}
+	return models, nil
 }

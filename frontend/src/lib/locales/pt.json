@@ -1,0 +1,120 @@
+{
+    "sidebar": {
+        "chat": "Chat",
+        "context": "Contexto",
+        "settings": "Configurações",
+        "about": "Sobre",
+        "default_assistant_name": "Assistente"
+    },
+    "chat": {
+        "clear_chat": "Apagar Chat",
+        "clear_history": "Apagar Histórico",
+        "clear_confirm": "Tem certeza que deseja apagar todo o histórico de chat?",
+        "clear_error": "Erro ao limpar histórico: ",
+        "empty_response": "_Jarvis não retornou texto para esta mensagem._",
+        "thinking": "Pensando...",
+        "placeholder": "Digite sua mensagem...",
+        "voice_error": "Erro ao reproduzir voz: ",
+        "audio_data_error": "O sistema de áudio não retornou dados."
+    },
+    "settings": {
+        "title": "Configurações",
+        "about_tab": "Sobre",
+        "config_tab": "Configurações",
+        "assistant_name": "Nome do Assistente",
+        "assistant_name_placeholder": "Ex: Jarvis, Sexta-Feira...",
+        "api_key": "API Key",
+        "mood": "Humor",
+        "preferred_provider": "Provedor Preferencial",
+        "model": "Modelo",
+        "model_placeholder": "Nome do modelo...",
+        "voice_engine": "Motor de Voz",
+        "assistant_voice": "Voz do Assistente (OpenAI)",
+        "system_voice": "Voz do Sistema (Linux)",
+        "default_system": "Padrão do Sistema",
+        "refresh_voices": "Atualizar Vozes",
+        "voice_enabled": "Ativar Voz (Auto-Play)",
+        "unlock_models": "Desativar Filtros (Unlock Models)",
+        "save_settings": "Salvar Configurações",
+        "vocal_engines": {
+            "openai": "OpenAI Premium (API Key)",
+            "native": "Nativo (Navegador)",
+            "linux_local": "Linux (spd-say / Local)"
+        },
+        "moods": {
+            "Prestativo": "Prestativo",
+            "Sarcástico": "Sarcástico",
+            "Profissional": "Profissional",
+            "Amigável": "Amigável",
+            "Direto": "Direto",
+            "Zombeteiro": "Zombeteiro"
+        }
+    },
+    "about": {
+        "description": "O poder da inteligência artificial no seu controle.",
+        "what_does": "🚀 O que este App faz?",
+        "what_does_text": "Este é um ecossistema de IA projetado para ser seu braço direito. Ele integra os modelos mais poderosos do mundo diretamente no seu fluxo de trabalho, permitindo uma interação fluida e produtiva com o seu computador.",
+        "cards": {
+            "unlock": {
+                "title": "Detravas de IA",
+                "desc": "Liberdade total para os modelos, removendo filtros restritivos para respostas mais diretas e criativas."
+            },
+            "multi_llm": {
+                "title": "Multi-LLM",
+                "desc": "Use diversas IAs (Gemini, Llama 3, GPT-4o, DeepSeek) via API em uma única interface."
+            },
+            "context": {
+                "title": "Contexto & Memória",
+                "desc": "Dê nome à sua IA e defina contextos específicos que são guardados em nosso banco de dados."
+            },
+            "total_power": {
+                "title": "Poder Total",
+                "desc": "A IA tem a possibilidade de realizar qualquer tarefa no seu computador através de comandos e scripts."
+            },
+            "mood_adjust": {
+                "title": "Ajustes de Humor",
+                "desc": "Personalize a personalidade da IA: do prestativo ao sarcástico, você decide o tom da conversa."
+            },
+            "kb": {
+                "title": "Base de Conhecimento",
+                "desc": "Banco de dados inteligente que armazena suas configurações e contextos para uso futuro."
+            }
+        },
+        "version": "v2.5.0 - Era 2026"
+    },
+    "context": {
+        "header": {
+            "title": "Contexto e Personalidade",
+            "subtitle": "Ajuste como o assistente deve se comportar e o nível de acesso ao sistema."
+        },
+        "cards": {
+            "mood": {
+                "title": "Humor da IA"
+            },
+            "security": {
+                "title": "Segurança e Filtros",
+                "unlock_title": "Desligar Travas de Modelos",
+                "unlock_desc": "Tenta ignorar filtros morais e de segurança da IA (System Prompt).",
+                "process_title": "Acesso total ao Processamento",
+                "process_desc": "Permite que a IA analise processos em tempo real (Experimental)."
+            },
+            "profile": {
+                "title": "Perfil do Agente Ideal",
+                "name": "Nome",
+                "name_placeholder": "Ex: Analista de Sistemas",
+                "profession": "Profissão",
+                "profession_placeholder": "Ex: Desenvolvedor Senior",
+                "age": "Idade",
+                "age_placeholder": "Ex: 35 anos",
+                "functions": "Funções Principais",
+                "functions_placeholder": "Ex: Gerenciar arquivos e compilar código",
+                "rules": "Texto de Regras (Diretrizes)",
+                "rules_placeholder": "Ex: Nunca apagar arquivos sem avisar..."
+            },
+            "tips": {
+                "title": "Dica de Contexto",
+                "text": "O humor altera o tom das respostas. O modo 'Unlock' envia instruções adicionais no System Prompt para contornar restrições nativas do modelo."
+            }
+        }
+    }
+}

@@ -19,6 +19,7 @@ function createConfigStore() {
             funcoes: "",
             regras: ""
         },
+        language: "en"
     });
 
     return {
@@ -52,6 +53,16 @@ function createConfigStore() {
                     target = target[keys[i]];
                 }
                 target[keys[keys.length - 1]] = value;
+                updatedConfig = { ...current };
+                return updatedConfig;
+            });
+            await SaveConfig(updatedConfig);
+        },
+        updateProvider: async (newProvider) => {
+            let updatedConfig;
+            update(current => {
+                current.preferredProvider = newProvider;
+                current.preferredModel = ""; // Limpa o modelo atômicamente
                 updatedConfig = { ...current };
                 return updatedConfig;
             });

@@ -1,8 +1,12 @@
 <!-- Erasmo Cardoso - Dev -->
 <script>
-    import { GetSystemVoices } from "../../wailsjs/go/main/App";
+    import {
+        GetSystemVoices,
+        GetAvailableModels,
+    } from "../../wailsjs/go/main/App";
     import { configStore } from "./store";
     import { onMount } from "svelte";
+    import { t } from "./i18n";
 
     export let visible = false;
     export let currentTab = "config"; // 'config' ou 'about'
@@ -39,6 +43,44 @@
     }
 
     let systemVoices = [];
+    let availableModels = [];
+    let loadingModels = false;
+
+    let currentFetchId = 0;
+    async function fetchModels(providerOverride = null) {
+        const provider = providerOverride || $configStore.preferredProvider;
+        if (provider === "ollama") {
+            availableModels = [];
+            return;
+        }
+
+        const fetchId = ++currentFetchId;
+        loadingModels = true;
+        availableModels = []; // Limpa IMEDIATAMENTE a lista anterior
+
+        try {
+            console.log(`[Fetch ${fetchId}] Buscando modelos para:`, provider);
+            const models = await GetAvailableModels(provider);
+
+            // Proteção: Só atualiza se esta for a chamada mais recente
+            if (fetchId !== currentFetchId) return;
+
+            if (models && models.length > 0) {
+                availableModels = models.sort();
+            } else {
+                availableModels = [];
+            }
+        } catch (e) {
+            if (fetchId === currentFetchId) {
+                console.error("Erro ao buscar modelos:", e);
+                availableModels = [];
+            }
+        } finally {
+            if (fetchId === currentFetchId) {
+                loadingModels = false;
+            }
+        }
+    }
 
     async function loadSystemVoices() {
         try {
@@ -55,6 +97,10 @@
 
         if ($configStore.voiceSettings.engine === "linux_local") {
             await loadSystemVoices();
+        }
+
+        if ($configStore.preferredProvider !== "ollama") {
+            await fetchModels();
         }
 
         return () => window.removeEventListener("click", handleOutsideClick);
@@ -85,13 +131,14 @@
                             ? 'active'
                             : ''}"
                         on:click={() => (currentTab = "config")}
-                        >Configurações</button
+                        >{$t("settings.config_tab")}</button
                     >
                     <button
                         class="tab-link {currentTab === 'about'
                             ? 'active'
                             : ''}"
-                        on:click={() => (currentTab = "about")}>Sobre</button
+                        on:click={() => (currentTab = "about")}
+                        >{$t("settings.about_tab")}</button
                     >
                 </div>
                 <button class="close-btn" on:click={() => (visible = false)}
@@ -102,12 +149,16 @@
             {#if currentTab === "config"}
                 <section class="settings-content">
                     <div class="field">
-                        <label for="assistantName">Nome do Assistente</label>
+                        <label for="assistantName"
+                            >{$t("settings.assistant_name")}</label
+                        >
                         <input
                             id="assistantName"
                             type="text"
                             bind:value={$configStore.assistantName}
-                            placeholder="Ex: Jarvis, Sexta-Feira..."
+                            placeholder={$t(
+                                "settings.assistant_name_placeholder",
+                            )}
                         />
                     </div>
 
@@ -166,13 +217,18 @@
                     </div>
 
                     <div class="field">
-                        <label for="humor">Humor</label>
+                        <label for="humor">{$t("settings.mood")}</label>
                         <div class="custom-select" id="humor">
                             <button
                                 class="select-trigger"
                                 on:click={(e) => toggleDropdown("humor", e)}
                             >
-                                <span>{$configStore.context.humor}</span>
+                                <span
+                                    >{$t(
+                                        "settings.moods." +
+                                            $configStore.context.humor,
+                                    )}</span
+                                >
                                 <i
                                     class="chevron"
                                     class:open={openDropdown === "humor"}
@@ -192,7 +248,7 @@
                                                 )}
                                         >
                                             <span class="dot"></span>
-                                            {hum}
+                                            {$t("settings.moods." + hum)}
                                         </button>
                                     {/each}
                                 </div>
@@ -201,7 +257,9 @@
                     </div>
 
                     <div class="field">
-                        <label for="provider">Provedor Preferencial</label>
+                        <label for="provider"
+                            >{$t("settings.preferred_provider")}</label
+                        >
                         <div class="custom-select" id="provider">
                             <button
                                 class="select-trigger"
@@ -224,13 +282,11 @@
                                             class="option"
                                             class:selected={$configStore.preferredProvider ===
                                                 val}
-                                            on:click={() => {
-                                                selectOption(
-                                                    "preferredProvider",
+                                            on:click={async () => {
+                                                await configStore.updateProvider(
                                                     val,
                                                 );
-                                                $configStore.preferredModel =
-                                                    "";
+                                                fetchModels(val);
                                             }}
                                         >
                                             <span class="dot"></span>
@@ -243,111 +299,89 @@
                     </div>
 
                     <div class="field">
-                        <label for="model">Modelo</label>
-                        {#if $configStore.preferredProvider === "groq"}
-                            <select
-                                id="model"
-                                bind:value={$configStore.preferredModel}
-                            >
-                                <option value="llama-3.3-70b-versatile"
-                                    >Llama 3.3 70B</option
+                        <div class="field-header">
+                            <label for="model">{$t("settings.model")}</label>
+                            {#if $configStore.preferredProvider !== "ollama"}
+                                <button
+                                    class="refresh-btn mini"
+                                    on:click={() => fetchModels()}
+                                    disabled={loadingModels}
+                                    title="Atualizar lista de modelos"
                                 >
-                                <option value="llama-3.1-8b-instant"
-                                    >Llama 3.1 8B (Instant)</option
-                                >
-                                <option value="mixtral-8x7b-32768"
-                                    >Mixtral 8x7B</option
-                                >
-                            </select>
-                        {:else if $configStore.preferredProvider === "gemini"}
-                            <select
-                                id="model"
-                                bind:value={$configStore.preferredModel}
-                            >
-                                <option value="gemini-2.0-flash"
-                                    >Gemini 2.0 Flash (Recomendado)</option
-                                >
-                                <option value="gemini-1.5-flash"
-                                    >Gemini 1.5 Flash (Rápido)</option
-                                >
-                                <option value="gemini-1.5-pro"
-                                    >Gemini 1.5 Pro (Complexo)</option
-                                >
-                                <option value="gemini-2.0-pro-exp-02-05"
-                                    >Gemini 2.0 Pro Experimental</option
-                                >
-                            </select>
-                        {:else if $configStore.preferredProvider === "openai"}
-                            <select
-                                id="model"
-                                bind:value={$configStore.preferredModel}
-                            >
-                                <option value="gpt-4o">GPT-4o (Padrão)</option>
-                                <option value="gpt-4o-mini">GPT-4o Mini</option>
-                                <option value="gpt-3.5-turbo"
-                                    >GPT-3.5 Turbo</option
-                                >
-                            </select>
-                        {:else if $configStore.preferredProvider === "deepseek"}
-                            <select
-                                id="model"
-                                bind:value={$configStore.preferredModel}
-                            >
-                                <option value="deepseek-chat"
-                                    >DeepSeek V3 (Chat)</option
-                                >
-                                <option value="deepseek-reasoner"
-                                    >DeepSeek R1 (Raciocínio)</option
-                                >
-                            </select>
-                        {:else if $configStore.preferredProvider === "openrouter"}
-                            <select
-                                id="model"
-                                bind:value={$configStore.preferredModel}
-                            >
-                                <option value="google/gemini-2.0-flash-exp:free"
-                                    >Gemini 2.0 Flash (Free)</option
-                                >
-                                <option
-                                    value="mistralai/mistral-7b-instruct:free"
-                                    >Mistral 7B (Free)</option
-                                >
-                                <option
-                                    value="huggingfaceh4/zephyr-7b-beta:free"
-                                    >Zephyr 7B (Free)</option
-                                >
-                                <option value="openrouter/auto"
-                                    >Auto (Melhor grátis)</option
-                                >
-                            </select>
-                        {:else if $configStore.preferredProvider === "ollama"}
+                                    <svg
+                                        width="12"
+                                        height="12"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        class:spin={loadingModels}
+                                    >
+                                        <path
+                                            d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"
+                                        />
+                                    </svg>
+                                </button>
+                            {/if}
+                        </div>
+
+                        {#if $configStore.preferredProvider === "ollama"}
                             <input
                                 id="model"
                                 type="text"
                                 bind:value={$configStore.preferredModel}
                                 placeholder="ex: llama3, mistral, phi3..."
                             />
-                        {:else}
-                            <input
+                        {:else if availableModels.length > 0}
+                            <select
                                 id="model"
-                                type="text"
                                 bind:value={$configStore.preferredModel}
-                                placeholder="Nome do modelo..."
-                            />
+                                disabled={loadingModels}
+                            >
+                                {#if loadingModels}
+                                    <option value="" disabled
+                                        >Buscando modelos...</option
+                                    >
+                                {:else}
+                                    <option value="" disabled
+                                        >-- Selecione um modelo --</option
+                                    >
+                                    {#each availableModels as m}
+                                        <option value={m}>{m}</option>
+                                    {/each}
+                                {/if}
+                            </select>
+                        {:else}
+                            <div class="model-input-wrapper">
+                                <input
+                                    id="model"
+                                    type="text"
+                                    bind:value={$configStore.preferredModel}
+                                    placeholder={loadingModels
+                                        ? "Buscando modelos..."
+                                        : $t("settings.model_placeholder")}
+                                />
+                                {#if loadingModels}
+                                    <div class="spinner-small"></div>
+                                {/if}
+                            </div>
                         {/if}
                     </div>
 
                     <div class="field">
-                        <label for="voiceEngine">Motor de Voz</label>
+                        <label for="voiceEngine"
+                            >{$t("settings.voice_engine")}</label
+                        >
                         <div class="custom-select" id="voiceEngine">
                             <button
                                 class="select-trigger"
                                 on:click={(e) => toggleDropdown("engine", e)}
                             >
                                 <span
-                                    >{labelMaps["voiceSettings.engine"][
-                                        $configStore.voiceSettings.engine
-                                    ]}</span
+                                    >{$t(
+                                        "settings.vocal_engines." +
+                                            $configStore.voiceSettings.engine,
+                                    )}</span
                                 >
                                 <i
                                     class="chevron"
@@ -368,7 +402,9 @@
                                                 )}
                                         >
                                             <span class="dot"></span>
-                                            {label}
+                                            {$t(
+                                                "settings.vocal_engines." + val,
+                                            )}
                                         </button>
                                     {/each}
                                 </div>
@@ -378,7 +414,8 @@
 
                     {#if $configStore.voiceSettings.engine === "openai"}
                         <div class="field">
-                            <label for="voice">Voz do Assistente (OpenAI)</label
+                            <label for="voice"
+                                >{$t("settings.assistant_voice")}</label
                             >
                             <select
                                 id="voice"
@@ -397,13 +434,15 @@
                     {#if $configStore.voiceSettings.engine === "linux_local"}
                         <div class="field">
                             <label for="voiceLinux"
-                                >Voz do Sistema (Linux)</label
+                                >{$t("settings.system_voice")}</label
                             >
                             <select
                                 id="voiceLinux"
                                 bind:value={$configStore.voiceSettings.voiceId}
                             >
-                                <option value="">Padrão do Sistema</option>
+                                <option value=""
+                                    >{$t("settings.default_system")}</option
+                                >
                                 {#each systemVoices as voice}
                                     <option value={voice}>{voice}</option>
                                 {/each}
@@ -423,7 +462,7 @@
                                         d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
                                     ></path>
                                 </svg>
-                                Atualizar Vozes
+                                {$t("settings.refresh_voices")}
                             </button>
                         </div>
                     {/if}
@@ -431,7 +470,7 @@
                     <div class="field toggle-item">
                         <label for="voiceEnabled" class="toggle-label">
                             <span class="label-text"
-                                >Ativar Voz (Auto-Play)</span
+                                >{$t("settings.voice_enabled")}</span
                             >
                             <div class="switch">
                                 <input
@@ -449,7 +488,7 @@
                     <div class="field toggle-item">
                         <label for="unlockModels" class="toggle-label">
                             <span class="label-text"
-                                >Desativar Filtros (Unlock Models)</span
+                                >{$t("settings.unlock_models")}</span
                             >
                             <div class="switch">
                                 <input
@@ -470,77 +509,65 @@
                         <div class="logo-icon-large">&lt; IA &gt;</div>
                         <h3>Agente IA</h3>
                         <p>
-                            O poder da inteligência artificial no seu controle.
+                            {$t("about.description")}
                         </p>
                     </div>
 
                     <div class="about-section highlight">
-                        <h4>🚀 O que este App faz?</h4>
+                        <h4>{$t("about.what_does")}</h4>
                         <p>
-                            Este é um ecossistema de IA projetado para ser seu
-                            braço direito. Ele integra os modelos mais poderosos
-                            do mundo diretamente no seu fluxo de trabalho,
-                            permitindo uma interação fluida e produtiva com o
-                            seu computador.
+                            {$t("about.what_does_text")}
                         </p>
                     </div>
 
                     <div class="about-grid">
                         <div class="about-card">
                             <div class="card-icon">🔓</div>
-                            <h5>Detravas de IA</h5>
+                            <h5>{$t("about.cards.unlock.title")}</h5>
                             <p>
-                                Liberdade total para os modelos, removendo
-                                filtros restritivos para respostas mais diretas
-                                e criativas.
+                                {$t("about.cards.unlock.desc")}
                             </p>
                         </div>
                         <div class="about-card">
                             <div class="card-icon">🌐</div>
-                            <h5>Multi-LLM</h5>
+                            <h5>{$t("about.cards.multi_llm.title")}</h5>
                             <p>
-                                Use diversas IAs (Gemini, Llama 3, GPT-4o,
-                                DeepSeek) via API em uma única interface.
+                                {$t("about.cards.multi_llm.desc")}
                             </p>
                         </div>
                         <div class="about-card">
                             <div class="card-icon">🧠</div>
-                            <h5>Contexto & Memória</h5>
+                            <h5>{$t("about.cards.context.title")}</h5>
                             <p>
-                                Dê nome à sua IA e defina contextos específicos
-                                que são guardados em nosso banco de dados.
+                                {$t("about.cards.context.desc")}
                             </p>
                         </div>
                         <div class="about-card">
                             <div class="card-icon">💻</div>
-                            <h5>Poder Total</h5>
+                            <h5>{$t("about.cards.total_power.title")}</h5>
                             <p>
-                                A IA tem a possibilidade de realizar qualquer
-                                tarefa no seu computador através de comandos e
-                                scripts.
+                                {$t("about.cards.total_power.desc")}
                             </p>
                         </div>
                         <div class="about-card">
                             <div class="card-icon">🎭</div>
-                            <h5>Ajustes de Humor</h5>
+                            <h5>{$t("about.cards.mood_adjust.title")}</h5>
                             <p>
-                                Personalize a personalidade da IA: do prestativo
-                                ao sarcástico, você decide o tom da conversa.
+                                {$t("about.cards.mood_adjust.desc")}
                             </p>
                         </div>
                         <div class="about-card">
                             <div class="card-icon">📂</div>
-                            <h5>Base de Conhecimento</h5>
+                            <h5>{$t("about.cards.kb.title")}</h5>
                             <p>
-                                Banco de dados inteligente que armazena suas
-                                configurações e contextos para uso futuro.
+                                {$t("about.cards.kb.desc")}
                             </p>
                         </div>
                     </div>
 
                     <div class="about-footer">
                         <div class="signature">Erasmo Cardoso - Dev</div>
-                        <div class="version">v2.5.0 - Era 2026</div>
+                        <div class="version">{$t("about.version")}</div>
                     </div>
                 </section>
             {/if}
@@ -548,7 +575,7 @@
             {#if currentTab === "config"}
                 <footer>
                     <button class="save-btn" on:click={save}
-                        >Salvar Configurações</button
+                        >{$t("settings.save_settings")}</button
                     >
                 </footer>
             {/if}
@@ -816,6 +843,65 @@
         background-position: right 14px center;
         background-size: 18px;
         cursor: pointer;
+    }
+
+    .field-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .field-header label {
+        margin-bottom: 0 !important;
+    }
+
+    .refresh-btn.mini {
+        padding: 4px;
+        background: transparent;
+        border: none;
+        color: var(--primary);
+        opacity: 0.7;
+        margin: 0;
+    }
+
+    .refresh-btn.mini:hover {
+        opacity: 1;
+        background: rgba(88, 166, 255, 0.1);
+    }
+
+    .spin {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .model-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .model-input-wrapper input {
+        width: 100%;
+    }
+
+    .spinner-small {
+        position: absolute;
+        right: 12px;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
     }
 
     .field input {

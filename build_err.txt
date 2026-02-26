@@ -1,0 +1,30 @@
+
+> frontend@0.0.0 build
+> vite build
+
+vite v3.2.11 building for production...
+transforming...
+✓ 24 modules transformed.
+16:36:29 [vite-plugin-svelte] dom compile done.
+package 	files	 time	  avg
+frontend	    5	0.62s	0.12s
+'GetAvailableModels' is not exported by wailsjs/go/main/App.js, imported by src/lib/Settings.svelte
+file: /home/erasmo/GITHUB/agenteIA/frontend/src/lib/Settings.svelte:5:8
+3:     import {
+4:         GetSystemVoices,
+5:         GetAvailableModels,
+           ^
+6:     } from "../../wailsjs/go/main/App";
+7:     import { configStore } from "./store";
+error during build:
+Error: 'GetAvailableModels' is not exported by wailsjs/go/main/App.js, imported by src/lib/Settings.svelte
+    at error (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:1858:30)
+    at Module.error (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:12436:16)
+    at Module.traceVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:12795:29)
+    at ModuleScope.findVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:11447:39)
+    at FunctionScope.findVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:6379:38)
+    at ChildScope.findVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:6379:38)
+    at FunctionScope.findVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:6379:38)
+    at ChildScope.findVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:6379:38)
+    at BlockScope.findVariable (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:6379:38)
+    at Identifier.bind (file:///home/erasmo/GITHUB/agenteIA/frontend/node_modules/rollup/dist/es/shared/rollup.js:7446:40)

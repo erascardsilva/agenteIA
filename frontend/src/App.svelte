@@ -5,6 +5,8 @@
   import Context from "./lib/Context.svelte";
   import { onMount } from "svelte";
   import { configStore } from "./lib/store";
+  import { t } from "./lib/i18n";
+  import LanguageBar from "./lib/LanguageBar.svelte";
 
   let currentTab = "chat";
   let showSettings = false;
@@ -24,7 +26,9 @@
   <aside class="sidebar glass">
     <div class="logo">
       <div class="logo-icon">&lt; IA &gt;</div>
-      <h1>{$configStore.assistantName || "Assistente"}</h1>
+      <h1>
+        {$configStore.assistantName || $t("sidebar.default_assistant_name")}
+      </h1>
     </div>
 
     <nav>
@@ -44,7 +48,7 @@
             d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
           ></path>
         </svg>
-        Chat
+        {$t("sidebar.chat")}
       </button>
 
       <button
@@ -66,7 +70,7 @@
             d="M12 6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h3a1 1 0 0 0 0-2h-2V7a1 1 0 0 0-1-1z"
           ></path>
         </svg>
-        Contexto
+        {$t("sidebar.context")}
       </button>
     </nav>
 
@@ -88,7 +92,7 @@
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           ></path>
         </svg>
-        Configurações
+        {$t("sidebar.settings")}
       </button>
 
       <button class="settings-trigger" on:click={() => toggleSettings("about")}>
@@ -104,12 +108,13 @@
           <line x1="12" y1="16" x2="12" y2="12"></line>
           <line x1="12" y1="8" x2="12.01" y2="8"></line>
         </svg>
-        Sobre
+        {$t("sidebar.about")}
       </button>
     </div>
   </aside>
 
   <section class="content">
+    <LanguageBar />
     {#if currentTab === "chat"}
       <Chat />
     {:else if currentTab === "context"}
