@@ -126,7 +126,7 @@ wails build -platform windows/amd64 -nsis
 ### 🐧 Linux (Flatpak Installation)
 To install the generated Flatpak bundle:
 ```bash
-flatpak install --user build/agenteIA.flatpak
+flatpak install --user build/bin/agenteIA.flatpak
 flatpak run org.erascardsilva.agenteIA
 ```
 
@@ -134,7 +134,7 @@ flatpak run org.erascardsilva.agenteIA
 
 ## 📦 Executables
 
-The compiled executables are available in the `build/` folder.
+The compiled executables are available in the `build/bin` folder.
 *   `agenteIA.exe` (Windows Executable)
 *   `agente-ia-amd64-installer.exe` (Windows Installer)
 *   `agenteIA` (Linux Binary)

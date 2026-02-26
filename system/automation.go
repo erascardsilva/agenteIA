@@ -75,6 +75,7 @@ func ExecuteCommand(command string) (string, error) {
 		// Detectar se está rodando dentro de um Flatpak
 		if _, err := os.Stat("/.flatpak-info"); err == nil {
 			// Se estiver no Flatpak, usa flatpak-spawn --host para rodar binários do sistema
+			// Usamos sh -c de forma direta para garantir que o comando chegue completo ao host
 			cmd = exec.Command("flatpak-spawn", "--host", "sh", "-c", command)
 		} else {
 			cmd = exec.Command("sh", "-c", command)

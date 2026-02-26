@@ -14,6 +14,8 @@ finish-args:
   - --talk-name=org.freedesktop.SpeechDispatcher
   - --talk-name=org.speech_dispatcher.SpeechDispatcher
   - --talk-name=org.freedesktop.portal.Flatpak
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.freedesktop.portal.Desktop
   - --metadata=X-DConf=comm-read-only
   - --allow=devel
 modules:
