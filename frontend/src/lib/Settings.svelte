@@ -264,20 +264,17 @@
                                 id="model"
                                 bind:value={$configStore.preferredModel}
                             >
-                                <option value="gemini-3.1-pro-preview"
-                                    >Gemini 3.1 Pro (Estado da Arte)</option
+                                <option value="gemini-2.0-flash"
+                                    >Gemini 2.0 Flash (Recomendado)</option
                                 >
-                                <option value="gemini-3-flash-preview"
-                                    >Gemini 3 Flash (Alta Velocidade)</option
+                                <option value="gemini-1.5-flash"
+                                    >Gemini 1.5 Flash (Rápido)</option
                                 >
-                                <option value="gemini-3-pro-preview"
-                                    >Gemini 3 Pro Preview</option
+                                <option value="gemini-1.5-pro"
+                                    >Gemini 1.5 Pro (Complexo)</option
                                 >
-                                <option value="gemini-2.5-pro-preview"
-                                    >Gemini 2.5 Pro (Estável/Complexo)</option
-                                >
-                                <option value="gemini-2.5-flash-preview"
-                                    >Gemini 2.5 Flash (Estável/Rápido)</option
+                                <option value="gemini-2.0-pro-exp-02-05"
+                                    >Gemini 2.0 Pro Experimental</option
                                 >
                             </select>
                         {:else if $configStore.preferredProvider === "openai"}

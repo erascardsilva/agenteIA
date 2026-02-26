@@ -212,62 +212,82 @@ func (a *App) SendMessage(content string) (string, error) {
 	prefProv := a.config.PreferredProvider
 	prefModel := a.config.PreferredModel
 
-	// Se não houver preferência válida ou chave, tenta encontrar o primeiro disponível
-	if prefProv == "gemini" && a.config.ApiKeys["gemini"] != "" {
+	// Seleção de Provedor baseada na preferência do usuário
+	if prefProv == "gemini" {
 		if prefModel == "" {
-			prefModel = "gemini-3-flash-preview"
+			prefModel = "gemini-1.5-flash"
 		}
-		provider = &ai.GeminiProvider{
-			ApiKey:       a.config.ApiKeys["gemini"],
-			Model:        prefModel,
-			UnlockModels: a.config.Context.UnlockModels,
+		if key := a.config.ApiKeys["gemini"]; key != "" {
+			provider = &ai.GeminiProvider{
+				ApiKey:       key,
+				Model:        prefModel,
+				UnlockModels: a.config.Context.UnlockModels,
+			}
+		} else {
+			return "", fmt.Errorf("API Key do Gemini não configurada. Por favor, adicione a chave nas configurações.")
 		}
-	} else if prefProv == "groq" && a.config.ApiKeys["groq"] != "" {
+	} else if prefProv == "groq" {
 		if prefModel == "" {
 			prefModel = "llama-3.3-70b-versatile"
 		}
-		provider = &ai.OpenAIProvider{
-			ApiKey: a.config.ApiKeys["groq"],
-			Model:  prefModel,
-			Url:    "https://api.groq.com/openai/v1/chat/completions",
+		if key := a.config.ApiKeys["groq"]; key != "" {
+			provider = &ai.OpenAIProvider{
+				ApiKey: key,
+				Model:  prefModel,
+				Url:    "https://api.groq.com/openai/v1/chat/completions",
+			}
+		} else {
+			return "", fmt.Errorf("API Key do Groq não configurada. Por favor, adicione a chave nas configurações.")
 		}
-	} else if prefProv == "openai" && a.config.ApiKeys["openai"] != "" {
+	} else if prefProv == "openai" {
 		if prefModel == "" {
 			prefModel = "gpt-4o"
 		}
-		provider = &ai.OpenAIProvider{
-			ApiKey: a.config.ApiKeys["openai"],
-			Model:  prefModel,
-			Url:    "https://api.openai.com/v1/chat/completions",
+		if key := a.config.ApiKeys["openai"]; key != "" {
+			provider = &ai.OpenAIProvider{
+				ApiKey: key,
+				Model:  prefModel,
+				Url:    "https://api.openai.com/v1/chat/completions",
+			}
+		} else {
+			return "", fmt.Errorf("API Key da OpenAI não configurada. Por favor, adicione a chave nas configurações.")
 		}
-	} else if prefProv == "deepseek" && a.config.ApiKeys["deepseek"] != "" {
+	} else if prefProv == "deepseek" {
 		if prefModel == "" {
 			prefModel = "deepseek-chat"
 		}
-		provider = &ai.OpenAIProvider{
-			ApiKey: a.config.ApiKeys["deepseek"],
-			Model:  prefModel,
-			Url:    "https://api.deepseek.com/chat/completions",
+		if key := a.config.ApiKeys["deepseek"]; key != "" {
+			provider = &ai.OpenAIProvider{
+				ApiKey: key,
+				Model:  prefModel,
+				Url:    "https://api.deepseek.com/chat/completions",
+			}
+		} else {
+			return "", fmt.Errorf("API Key do DeepSeek não configurada. Por favor, adicione a chave nas configurações.")
 		}
-	} else if prefProv == "openrouter" && a.config.ApiKeys["openrouter"] != "" {
+	} else if prefProv == "openrouter" {
 		if prefModel == "" {
 			prefModel = "google/gemini-2.0-flash-exp:free"
 		}
-		provider = &ai.OpenAIProvider{
-			ApiKey: a.config.ApiKeys["openrouter"],
-			Model:  prefModel,
-			Url:    "https://openrouter.ai/api/v1/chat/completions",
+		if key := a.config.ApiKeys["openrouter"]; key != "" {
+			provider = &ai.OpenAIProvider{
+				ApiKey: key,
+				Model:  prefModel,
+				Url:    "https://openrouter.ai/api/v1/chat/completions",
+			}
+		} else {
+			return "", fmt.Errorf("API Key do OpenRouter não configurada. Por favor, adicione a chave nas configurações.")
 		}
 	} else if prefProv == "ollama" {
 		if prefModel == "" {
-			prefModel = "llama3" // Default do Ollama
+			prefModel = "llama3"
 		}
 		provider = &ai.OllamaProvider{
 			Model: prefModel,
-			Url:   "http://localhost:11434", // URL padrão do Ollama
+			Url:   "http://localhost:11434",
 		}
 	} else {
-		// Fallback para o que tiver chave configurada
+		// Fallback dinâmico apenas se PreferredProvider estiver vazio ou inválido
 		if key := a.config.ApiKeys["groq"]; key != "" {
 			provider = &ai.OpenAIProvider{
 				ApiKey: key,
@@ -279,14 +299,8 @@ func (a *App) SendMessage(content string) (string, error) {
 				ApiKey: key,
 				Model:  "gemini-1.5-flash",
 			}
-		} else if key := a.config.ApiKeys["openai"]; key != "" {
-			provider = &ai.OpenAIProvider{
-				ApiKey: key,
-				Model:  "gpt-4o",
-				Url:    "https://api.openai.com/v1/chat/completions",
-			}
 		} else {
-			// Último recurso: tenta Ollama local se estiver rodando
+			// Último recurso: Ollama local
 			provider = &ai.OllamaProvider{
 				Model: "llama3",
 				Url:   "http://localhost:11434",
