@@ -11,6 +11,11 @@ finish-args:
   - --socket=pulseaudio
   - --device=dri
   - --filesystem=home
+  - --talk-name=org.freedesktop.SpeechDispatcher
+  - --talk-name=org.speech_dispatcher.SpeechDispatcher
+  - --talk-name=org.freedesktop.portal.Flatpak
+  - --metadata=X-DConf=comm-read-only
+  - --allow=devel
 modules:
   - name: agenteIA
     buildsystem: simple

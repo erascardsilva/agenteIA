@@ -72,7 +72,13 @@ func ExecuteCommand(command string) (string, error) {
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("cmd", "/C", command)
 	} else {
-		cmd = exec.Command("sh", "-c", command)
+		// Detectar se está rodando dentro de um Flatpak
+		if _, err := os.Stat("/.flatpak-info"); err == nil {
+			// Se estiver no Flatpak, usa flatpak-spawn --host para rodar binários do sistema
+			cmd = exec.Command("flatpak-spawn", "--host", "sh", "-c", command)
+		} else {
+			cmd = exec.Command("sh", "-c", command)
+		}
 	}
 
 	out, err := cmd.CombinedOutput()

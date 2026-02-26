@@ -100,6 +100,16 @@
 
             // Se for motor nativo, usamos a Web Speech API
             if ($configStore.voiceSettings.engine === "native") {
+                if (
+                    !window.speechSynthesis ||
+                    !window.SpeechSynthesisUtterance
+                ) {
+                    alert(
+                        "A 'Voz do Navegador' não está disponível neste ambiente (Flatpak/WebView). Por favor, use a opção 'Linux (spd-say / Local)' nas configurações.",
+                    );
+                    currentPlayingMsg = null;
+                    return;
+                }
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = "pt-BR";
                 utterance.rate = 1.0;
