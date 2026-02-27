@@ -1,6 +1,6 @@
 app-id: io.github.erascardsilva.agenteIA
 runtime: org.gnome.Platform
-runtime-version: '45'
+runtime-version: '47'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
@@ -9,16 +9,12 @@ command: agenteIA
 finish-args:
   - --share=network
   - --share=ipc
-  - --socket=x11
+  - --socket=fallback-x11
   - --socket=wayland
   - --socket=pulseaudio
   - --device=dri
   - --talk-name=org.freedesktop.SpeechDispatcher
   - --talk-name=org.speech_dispatcher.SpeechDispatcher
-  - --talk-name=org.freedesktop.portal.Flatpak
-  - --talk-name=org.freedesktop.Flatpak
-  - --talk-name=org.freedesktop.portal.Desktop
-  - --metadata=X-DConf=comm-read-only
 build-options:
   append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node20/bin
   env:
@@ -42,4 +38,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/erascardsilva/agenteIA.git
-        branch: master
+        commit: 5ffc51f6f41da71ca639806df95f7ca9133fea8f
