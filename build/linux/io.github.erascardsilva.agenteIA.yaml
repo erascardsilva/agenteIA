@@ -1,4 +1,4 @@
-app-id: org.erascardsilva.agenteIA
+app-id: io.github.erascardsilva.agenteIA
 runtime: org.gnome.Platform
 runtime-version: '45'
 sdk: org.gnome.Sdk
@@ -13,7 +13,6 @@ finish-args:
   - --socket=wayland
   - --socket=pulseaudio
   - --device=dri
-  - --filesystem=home
   - --talk-name=org.freedesktop.SpeechDispatcher
   - --talk-name=org.speech_dispatcher.SpeechDispatcher
   - --talk-name=org.freedesktop.portal.Flatpak
@@ -37,9 +36,9 @@ modules:
       - $(go env GOPATH)/bin/wails build -platform linux/amd64
       # Install files
       - install -D build/bin/agenteIA /app/bin/agenteIA
-      - install -D build/linux/org.erascardsilva.agenteIA.desktop /app/share/applications/org.erascardsilva.agenteIA.desktop
-      - install -D build/linux/org.erascardsilva.agenteIA.metainfo.xml /app/share/metainfo/org.erascardsilva.agenteIA.metainfo.xml
-      - install -D build/appicon.png /app/share/icons/hicolor/512x512/apps/org.erascardsilva.agenteIA.png
+      - install -D build/linux/io.github.erascardsilva.agenteIA.desktop /app/share/applications/io.github.erascardsilva.agenteIA.desktop
+      - install -D build/linux/io.github.erascardsilva.agenteIA.metainfo.xml /app/share/metainfo/io.github.erascardsilva.agenteIA.metainfo.xml
+      - install -D build/appicon.png /app/share/icons/hicolor/512x512/apps/io.github.erascardsilva.agenteIA.png
     sources:
       - type: git
         url: https://github.com/erascardsilva/agenteIA.git

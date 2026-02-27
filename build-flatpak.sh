@@ -24,10 +24,10 @@ mkdir -p build/bin
 echo "Gerando Flatpak bundle..."
 cd $BUILD_DIR
 
-flatpak-builder --force-clean --repo=../flatpak-repo build-dir org.erascardsilva.agenteIA.yaml
+flatpak-builder --force-clean --repo=../flatpak-repo build-dir io.github.erascardsilva.agenteIA.yaml
 
 # 4. Criar o arquivo .flatpak (bundle) para distribuição
-flatpak build-bundle ../flatpak-repo ../bin/agenteIA.flatpak org.erascardsilva.agenteIA
+flatpak build-bundle ../flatpak-repo ../bin/agenteIA.flatpak io.github.erascardsilva.agenteIA
 
 cd ../..
 

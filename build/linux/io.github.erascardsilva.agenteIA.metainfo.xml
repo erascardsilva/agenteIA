@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>org.erascardsilva.agenteIA</id>
+  <id>io.github.erascardsilva.agenteIA</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   <name>AgenteIA</name>
@@ -17,7 +17,7 @@
       <li>Privacidade e controle total sobre as APIs utilizadas.</li>
     </ul>
   </description>
-  <launchable type="desktop-id">org.erascardsilva.agenteIA.desktop</launchable>
+  <launchable type="desktop-id">io.github.erascardsilva.agenteIA.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <caption>Interface principal do AgenteIA</caption>
@@ -26,8 +26,9 @@
   </screenshots>
   <url type="homepage">https://github.com/erascardsilva/agenteIA</url>
   <url type="bugtracker">https://github.com/erascardsilva/agenteIA/issues</url>
+  <url type="vcs-browser">https://github.com/erascardsilva/agenteIA</url>
   <content_rating type="oars-1.1" />
   <releases>
-    <release version="1.0.0" date="2024-02-27" />
+    <release version="1.0.0" date="2025-02-27" />
   </releases>
 </component>
