@@ -41,10 +41,26 @@ Você deve garantir que os seguintes arquivos já estejam no seu repositório Gi
 **Por que?** Quando o Flathub for compilar seu app, ele vai baixar seu código do GitHub e procurar por esses arquivos lá dentro para criar o ícone e o menu.
 
 ### Passo 2: A Submissão (Pull Request no Flathub)
-Agora você "avisa" ao Flathub que seu app existe:
-1.  Faça um fork do repositório [flathub/flathub](https://github.com/flathub/flathub).
-2.  Adicione **apenas o arquivo** `org.erascardsilva.agenteIA.yaml` (o manifesto) no seu fork.
-3.  Abra um Pull Request para o Flathub.
+Agora você "avisa" ao Flathub que seu app existe seguindo estes comandos técnicos:
+
+1.  **Faça o Fork** do repositório [flathub/flathub](https://github.com/flathub/flathub) no seu GitHub (Desmarque a opção "Copy the master branch only").
+2.  **Clone o seu fork** localmente (substitua `seu-usuario` pelo seu nome no GitHub):
+    ```bash
+    git clone --branch=new-pr git@github.com:seu-usuario/flathub.git
+    cd flathub
+    ```
+3.  **Crie uma branch** para o AgenteIA a partir da `new-pr`:
+    ```bash
+    git checkout -b submissao-agenteIA new-pr
+    ```
+4.  **Adicione apenas o manifesto** `org.erascardsilva.agenteIA.yaml` na raiz dessa pasta, faça o commit e o push:
+    ```bash
+    cp /home/erasmo/GITHUB/agenteIA/build/linux/org.erascardsilva.agenteIA.yaml .
+    git add org.erascardsilva.agenteIA.yaml
+    git commit -m "Add org.erascardsilva.agenteIA"
+    git push origin submissao-agenteIA
+    ```
+5.  **Abra o Pull Request** no site do GitHub apontando para a branch `new-pr` do Flathub original.
 
 Os servidores do Flathub lerão seu arquivo YAML, verão o link para seu GitHub, baixarão tudo e farão o build automaticamente. Se houver qualquer problema, eles avisarão no Pull Request.
 
