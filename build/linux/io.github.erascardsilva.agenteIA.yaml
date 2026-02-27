@@ -38,4 +38,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/erascardsilva/agenteIA.git
-        commit: 5ffc51f6f41da71ca639806df95f7ca9133fea8f
+        commit: 56f589e6eb5a8220bc0a8f895abbd52367d510e8
