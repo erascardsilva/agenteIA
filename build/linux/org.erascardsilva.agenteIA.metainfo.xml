@@ -4,18 +4,30 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   <name>AgenteIA</name>
-  <summary>Assistente IA local e na nuvem</summary>
+  <developer_name>Erasmo Cardoso</developer_name>
+  <summary>Assistente de IA local e na nuvem com suporte a múltiplos modelos</summary>
   <description>
     <p>
-      O AgenteIA é uma aplicação construída com Wails que permite interagir com diversos modelos de Inteligência Artificial (OpenAI, Gemini, Groq, etc) e suporta Text-to-Speech nativo.
+      O AgenteIA é um assistente de inteligência artificial poderoso e flexível, construído com Wails. Ele permite a integração com diversos serviços de IA (OpenAI, Gemini, Groq, etc) e oferece suporte nativo para Text-to-Speech (TTS).
     </p>
+    <ul>
+      <li>Suporte a múltiplos provedores de IA.</li>
+      <li>Interface moderna e responsiva.</li>
+      <li>Síntese de voz local e via Web Speech API.</li>
+      <li>Privacidade e controle total sobre as APIs utilizadas.</li>
+    </ul>
   </description>
   <launchable type="desktop-id">org.erascardsilva.agenteIA.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <caption>Tela principal do AgenteIA</caption>
-      <image>https://raw.githubusercontent.com/erascardsilva/agenteIA/main/build/imagem.png</image>
+      <caption>Interface principal do AgenteIA</caption>
+      <image>https://raw.githubusercontent.com/erascardsilva/agenteIA/master/build/imagem.png</image>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/erascardsilva/agenteIA</url>
+  <url type="bugtracker">https://github.com/erascardsilva/agenteIA/issues</url>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="1.0.0" date="2024-02-27" />
+  </releases>
 </component>
