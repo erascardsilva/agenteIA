@@ -1,0 +1,59 @@
+name: agenteia
+base: core24
+version: '1.0.0'
+summary: Seu Assistente Pessoal Desktop
+description: |
+  AgenteIA é um assistente desktop desenvolvido em Go e Wails para integração com diversos provedores de modelos de linguagem (LLMs). O objetivo é fornecer uma interface rápida e local para produtividade.
+icon: ../../build/appicon.png
+
+grade: stable
+confinement: strict
+
+platforms:
+  amd64:
+
+apps:
+  agenteia:
+    command: bin/agenteIA
+    desktop: usr/share/applications/io.github.erascardsilva.agenteIA.desktop
+    extensions: [gnome]
+    plugs:
+      - network
+      - network-bind
+      - home
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+
+parts:
+  agenteia:
+    plugin: go
+    source: ../../
+    build-snaps:
+      - go
+      - node/20/stable
+    build-packages:
+      - build-essential
+      - libgtk-3-dev
+      - libwebkit2gtk-4.1-dev
+    override-build: |
+      # Instala o utilitário Wails
+      go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      # Garante que as dependências do NPM sejam baixadas
+      npm install --prefix frontend
+
+      # Compila o app Wails diretamente para o diretório de instalação do Snap
+      ~/go/bin/wails build -m -tags webkit2_41 -nsis=false -upx=false -trimpath -o agenteIA
+
+      # Move o binário gerado para a estrutura do Snapcraft
+      mkdir -p $CRAFT_PART_INSTALL/bin
+      cp build/bin/agenteIA $CRAFT_PART_INSTALL/bin/agenteIA
+      
+      # Copia o desktop file e icone
+      mkdir -p $CRAFT_PART_INSTALL/usr/share/applications
+      cp build/linux/io.github.erascardsilva.agenteIA.desktop $CRAFT_PART_INSTALL/usr/share/applications/io.github.erascardsilva.agenteIA.desktop
+      
+      mkdir -p $CRAFT_PART_INSTALL/usr/share/icons/hicolor/512x512/apps
+      cp build/appicon.png $CRAFT_PART_INSTALL/usr/share/icons/hicolor/512x512/apps/io.github.erascardsilva.agenteIA.png
