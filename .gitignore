@@ -1,3 +1,9 @@
 # build/bin (Removido para permitir binários no repo)
 frontend/dist
 frontend/node_modules
+/build/linux/.flatpak-builder/
+snapcraft.login
+submissions/flathub
+*.snap
+*.flatpak
+*.yaml.bak

@@ -5,7 +5,7 @@ title: AgenteIA - Assistente Desktop Multimodal
 summary: Seu Assistente Pessoal Desktop
 description: |
   AgenteIA é um assistente desktop desenvolvido em Go e Wails para integração com diversos provedores de modelos de linguagem (LLMs). O objetivo é fornecer uma interface rápida e local para produtividade.
-icon: build/appicon.png
+icon: ../build/appicon.png
 contact: https://github.com/erascardsilva/agenteIA
 issues: https://github.com/erascardsilva/agenteIA/issues
 license: MIT
