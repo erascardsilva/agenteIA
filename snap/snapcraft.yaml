@@ -5,7 +5,7 @@ title: AgenteIA - Assistente Desktop Multimodal
 summary: Seu Assistente Pessoal Desktop
 description: |
   AgenteIA é um assistente desktop desenvolvido em Go e Wails para integração com diversos provedores de modelos de linguagem (LLMs). O objetivo é fornecer uma interface rápida e local para produtividade.
-icon: ../build/appicon.png
+icon: snap/gui/agenteia.png
 contact: https://github.com/erascardsilva/agenteIA
 issues: https://github.com/erascardsilva/agenteIA/issues
 license: MIT
@@ -19,7 +19,6 @@ platforms:
 apps:
   agenteia:
     command: bin/agenteIA
-    desktop: usr/share/applications/io.github.erascardsilva.agenteIA.desktop
     extensions: [gnome]
     plugs:
       - network
@@ -29,6 +28,8 @@ apps:
       - desktop-legacy
       - wayland
       - x11
+      - opengl
+      - audio-playback
 
 parts:
   agenteia:
@@ -50,9 +51,3 @@ parts:
 
       mkdir -p $CRAFT_PART_INSTALL/bin
       cp build/bin/agenteIA $CRAFT_PART_INSTALL/bin/agenteIA
-
-      mkdir -p $CRAFT_PART_INSTALL/usr/share/applications
-      cp build/linux/io.github.erascardsilva.agenteIA.desktop $CRAFT_PART_INSTALL/usr/share/applications/io.github.erascardsilva.agenteIA.desktop
-
-      mkdir -p $CRAFT_PART_INSTALL/usr/share/icons/hicolor/512x512/apps
-      cp build/appicon.png $CRAFT_PART_INSTALL/usr/share/icons/hicolor/512x512/apps/io.github.erascardsilva.agenteIA.png

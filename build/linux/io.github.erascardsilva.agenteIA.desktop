@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=AgenteIA
-Comment=Assistente IA com suporte a múltiplos modelos
-Exec=agenteIA
-Icon=io.github.erascardsilva.agenteIA
-Terminal=false
-Type=Application
-Categories=Utility;Network;
-Keywords=AI;Assistant;Chat;
