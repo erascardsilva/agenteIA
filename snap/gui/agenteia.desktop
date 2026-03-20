@@ -2,7 +2,7 @@
 Name=AgenteIA
 Comment=Assistente IA com suporte a múltiplos modelos
 Exec=agenteia
-Icon=agenteia
+Icon=${SNAP}/meta/gui/agenteia.png
 Terminal=false
 Type=Application
 Categories=Utility;Network;
