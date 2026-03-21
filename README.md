@@ -1,5 +1,7 @@
 # AI Agent - Multimodal Desktop Assistant
 
+[![Disponível na Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
+
 AI Agent is a desktop assistant developed in Go and Wails for integration with various language model providers (LLMs). The goal is to provide a fast and local interface for productivity.
 
 ---
@@ -73,6 +75,15 @@ wails build -platform windows/amd64 -nsis
 The project includes a script for automated Flatpak builds:
 ```bash
 ./build-flatpak.sh
+```
+
+### Linux (Snap)
+O projeto está disponível na Snap Store:
+[![Disponível na Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
+
+Ou instale via terminal:
+```bash
+sudo snap install agenteia
 ```
 
 ---
