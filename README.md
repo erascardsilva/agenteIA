@@ -1,8 +1,21 @@
+<div align="center">
+
 # AI Agent - Multimodal Desktop Assistant
+### Fast and local interface for multimodal AI productivity
 
-[![Disponível na Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
+![Go 1.25+](https://img.shields.io/badge/Go-1.25+-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![Wails v2](https://img.shields.io/badge/Wails-v2-E13238?style=for-the-badge&logo=wails&logoColor=white)
+![Svelte](https://img.shields.io/badge/Svelte-%23FF3E00.svg?style=for-the-badge&logo=svelte&logoColor=white)
+![Linux ready](https://img.shields.io/badge/Linux-ready-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Windows ready](https://img.shields.io/badge/Windows-ready-0078D4?style=for-the-badge&logo=windows&logoColor=white)
 
-AI Agent is a desktop assistant developed in Go and Wails for integration with various language model providers (LLMs). The goal is to provide a fast and local interface for productivity.
+<a href="https://snapcraft.io/agenteia">
+  <img src="https://snapcraft.io/pt/dark/install.svg" alt="Available on the Snap Store" height="60">
+</a>
+
+</div>
+
+AI Agent is a cross-platform desktop assistant compatible with all Linux distributions and Windows. Developed in Go and Wails, it integrates with various language model providers (LLMs) to provide a fast and local interface for productivity.
 
 ---
 
@@ -24,6 +37,9 @@ The project utilizes the following components:
     *   Native integration via **Web Speech API**.
     *   Support for **spd-say** on Linux for local system voices.
 *   **Persistence:** SQLite for chat history and local settings.
+*   **Compatibility:**
+    *   **Linux:** All distributions (Ubuntu, Fedora, Arch, Debian, etc.) via Snap, Flatpak, or native build.
+    *   **Windows:** Windows 10 and 11.
 
 ---
 
@@ -62,7 +78,11 @@ To use the assistant, you need to configure your API keys:
 *   Node.js (LTS recommended)
 *   Wails CLI
 
+Binary files and installers (Windows .exe and Linux) are already available in the repository, located in the [build/bin](./build/bin) directory.
+
 ### Generate binary for your system
+To generate the files manually, use the commands below. After execution, the files will be updated in the `build/bin` directory.
+
 ```bash
 # Build for Linux
 wails build -platform linux/amd64
@@ -78,14 +98,15 @@ The project includes a script for automated Flatpak builds:
 ```
 
 ### Linux (Snap)
-O projeto está disponível na Snap Store:
-[![Disponível na Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
+The project is available on the Snap Store:
+[![Available on the Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
 
-Ou instale via terminal:
+Or install via terminal:
 ```bash
 sudo snap install agenteia
 ```
 
 ---
 
-**Erasmo Cardoso - Dev**
+**Erasmo Cardoso**
+**Software Engineer | Electronics Specialist**

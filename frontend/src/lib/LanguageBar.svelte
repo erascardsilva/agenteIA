@@ -1,4 +1,4 @@
-<!-- Erasmo Cardoso - Dev -->
+<!-- Erasmo Cardoso - Software Engineer | Electronics Specialist -->
 <script>
     import { configStore } from "./store";
     import { locale } from "./i18n";

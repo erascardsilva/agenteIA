@@ -1,4 +1,4 @@
-// Erasmo Cardoso - Dev
+// Erasmo Cardoso - Software Engineer | Electronics Specialist
 import { writable, derived } from 'svelte/store';
 import { configStore } from './store';
 import pt from './locales/pt.json';

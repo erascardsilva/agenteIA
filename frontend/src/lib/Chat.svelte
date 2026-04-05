@@ -1,4 +1,4 @@
-<!-- Erasmo Cardoso - Dev -->
+<!-- Erasmo Cardoso - Software Engineer | Electronics Specialist -->
 <script>
     import { onMount, tick } from "svelte";
     import { marked } from "marked";

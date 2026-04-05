@@ -1,4 +1,4 @@
-<!-- Erasmo Cardoso - Dev -->
+<!-- Erasmo Cardoso - Software Engineer | Electronics Specialist -->
 <script>
   import Chat from "./lib/Chat.svelte";
   import Settings from "./lib/Settings.svelte";

@@ -1,4 +1,4 @@
-// Erasmo Cardoso - Dev
+// Erasmo Cardoso - Software Engineer | Electronics Specialist
 package ai
 
 type Tool struct {

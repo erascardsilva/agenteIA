@@ -1,4 +1,4 @@
-<!-- Erasmo Cardoso - Dev -->
+<!-- Erasmo Cardoso - Software Engineer | Electronics Specialist -->
 <script>
     import {
         GetSystemVoices,
@@ -11,7 +11,7 @@
     export let visible = false;
     export let currentTab = "config"; // 'config' ou 'about'
 
-    // Erasmo Cardoso - Dev
+    // Erasmo Cardoso - Software Engineer | Electronics Specialist
     // Lógica para dropdowns customizados
     let openDropdown = null; // ID do dropdown aberto atualmente
 
@@ -566,7 +566,7 @@
                     </div>
 
                     <div class="about-footer">
-                        <div class="signature">Erasmo Cardoso - Dev</div>
+                        <div class="signature">Erasmo Cardoso - Software Engineer | Electronics Specialist</div>
                         <div class="version">{$t("about.version")}</div>
                     </div>
                 </section>
