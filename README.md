@@ -108,5 +108,5 @@ sudo snap install agenteia
 
 ---
 
-**Erasmo Cardoso**
+**Erasmo Cardoso**<br>
 **Software Engineer | Electronics Specialist**
