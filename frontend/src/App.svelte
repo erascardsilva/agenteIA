@@ -110,6 +110,24 @@
         </svg>
         {$t("sidebar.about")}
       </button>
+
+      <button
+        class="support-trigger"
+        on:click={() => window.go.main.App.OpenBrowser('https://www.paypal.com/ncp/payment/8V6WQCGN6HDCQ')}
+        title="Apoie o Projeto"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        Apoie o Projeto
+      </button>
     </div>
   </aside>
 
@@ -209,6 +227,30 @@
   .settings-trigger:hover {
     background: rgba(255, 255, 255, 0.05);
     color: white;
+  }
+
+  .support-trigger {
+    width: 100%;
+    padding: 12px 16px;
+    justify-content: flex-start;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .support-trigger:hover {
+    background: rgba(0, 112, 186, 0.1);
+    color: #58a6ff;
+  }
+
+  .support-trigger svg {
+    color: #e13238; /* Cor de coração sutil */
   }
 
   .content {

@@ -566,7 +566,18 @@
                     </div>
 
                     <div class="about-footer">
-                        <div class="signature">Erasmo Cardoso - Software Engineer | Electronics Specialist</div>
+                        <div class="support-section">
+                            <button class="paypal-btn" on:click={() => window.go.main.App.OpenBrowser('https://www.paypal.com/ncp/payment/8V6WQCGN6HDCQ')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.323c.065-.355.377-.62.738-.62h7.737c3.83 0 5.17 1.912 5.17 4.056 0 2.334-1.854 4.593-5.43 4.593h-1.15a.703.703 0 0 0-.693.6l-.28 1.181-.03.111c-.027.145.08.27.227.27h.18c2.583 0 4.594 1.056 5.19 4.144.271 1.405-.054 2.709-.947 3.654-.937.985-2.5 1.106-4.524 1.106H7.781c-.36 0-.673.264-.738.62l-.742 3.864c-.03.146.082.271.229.271h.546z"/>
+                                </svg>
+                                Apoiar com PayPal
+                            </button>
+                        </div>
+                        <div class="signature">
+                            <div class="signature-name">Erasmo Cardoso</div>
+                            <div class="signature-title">Software Engineer | Electronics Specialist</div>
+                        </div>
                         <div class="version">{$t("about.version")}</div>
                     </div>
                 </section>
@@ -1194,19 +1205,54 @@
     }
 
     .about-footer {
-        margin-top: 20px;
+        margin-top: 40px;
         padding-top: 24px;
         border-top: 1px solid rgba(255, 255, 255, 0.05);
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         align-items: center;
+        gap: 16px;
+    }
+
+    .support-section {
+        margin-bottom: 8px;
+    }
+
+    .paypal-btn {
+        background: rgba(0, 112, 186, 0.1);
+        border: 1px solid rgba(0, 112, 186, 0.3);
+        color: #0070ba;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .paypal-btn:hover {
+        background: rgba(0, 112, 186, 0.2);
+        border-color: #0070ba;
+        transform: translateY(-1px);
     }
 
     .signature {
-        font-family: "Courier New", Courier, monospace;
-        color: var(--primary);
-        font-weight: 600;
-        font-size: 14px;
+        text-align: center;
+        line-height: 1.4;
+    }
+
+    .signature-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+    }
+
+    .signature-title {
+        font-size: 13px;
+        color: var(--text-muted);
     }
 
     .version {

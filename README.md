@@ -110,3 +110,14 @@ sudo snap install agenteia
 
 **Erasmo Cardoso**<br>
 **Software Engineer | Electronics Specialist**
+
+---
+
+<div align="center">
+
+### Apoie o Desenvolvimento
+Se este projeto te ajudou, considere fazer uma doação para apoiar o desenvolvimento contínuo.
+
+[![Apoie com PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/ncp/payment/8V6WQCGN6HDCQ)
+
+</div>

@@ -480,3 +480,8 @@ func (a *App) GetAvailableModels(provider string) ([]string, error) {
 		return nil, fmt.Errorf("provedor %s não suporta listagem dinâmica ou não é reconhecido", provider)
 	}
 }
+
+// OpenBrowser abre uma URL no navegador padrão do sistema
+func (a *App) OpenBrowser(url string) {
+	runtime.BrowserOpenURL(a.ctx, url)
+}
