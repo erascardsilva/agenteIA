@@ -38,7 +38,7 @@ The project utilizes the following components:
     *   Support for **spd-say** on Linux for local system voices.
 *   **Persistence:** SQLite for chat history and local settings.
 *   **Compatibility:**
-    *   **Linux:** Todas as distribuições (Ubuntu, Fedora, Arch, Debian, etc.) via Snap ou build nativo.
+    *   **Linux:** All distributions (Ubuntu, Fedora, Arch, Debian, etc.) via Snap or native build.
     *   **Windows:** Windows 10 and 11.
 
 ---
@@ -92,35 +92,35 @@ wails build -platform windows/amd64 -nsis
 ```
 
 ### Linux (Snap)
-A versão de loja (Snap) possui restrições de segurança (Sandbox) que podem limitar o Modo Autônomo.
+The store version (Snap) has security restrictions (Sandbox) that may limit Autonomous Mode.
 [![Available on the Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
 
 ---
 
-## 🚀 Versão Completa (Download Direto)
+## 🚀 Full Version (Direct Download)
 
-Para utilizar todo o poder do **Agente Autônomo** (execução de comandos, gestão de arquivos e scripts), recomendamos o uso da versão completa disponível na pasta [build/bin](./build/bin).
+To utilize the full power of the **Autonomous Agent** (command execution, file and script management), we recommend using the full version available in the [build/bin](./build/bin) folder.
 
 ### 🪟 Windows
-1.  Acesse [build/bin](./build/bin).
-2.  Baixe o arquivo `agente-ia-installer.exe`.
-3.  Execute o instalador e siga os passos.
+1.  Go to [build/bin](./build/bin).
+2.  Download the `agente-ia-installer.exe` file.
+3.  Run the installer and follow the steps.
 
 ### 🐧 Debian / Ubuntu / Mint (.deb)
-1.  Baixe o arquivo `agenteia_amd64.deb` em [build/bin](./build/bin).
-2.  Instale via terminal:
+1.  Download the `agenteia_amd64.deb` file from [build/bin](./build/bin).
+2.  Install via terminal:
     ```bash
     sudo dpkg -i agenteia_amd64.deb
     ```
-3.  Caso falte dependências: `sudo apt install -f`.
+3.  In case of missing dependencies: `sudo apt install -f`.
 
-### 🎩 Fedora / Red Hat / Arch (Binário)
-1.  Baixe o binário `agenteIA` em [build/bin](./build/bin).
-2.  Dê permissão de execução:
+### 🎩 Fedora / Red Hat / Arch (Binary)
+1.  Download the `agenteIA` binary from [build/bin](./build/bin).
+2.  Give execution permission:
     ```bash
     chmod +x agenteIA
     ```
-3.  Execute diretamente:
+3.  Run directly:
     ```bash
     ./agenteIA
     ```
@@ -134,8 +134,8 @@ Para utilizar todo o poder do **Agente Autônomo** (execução de comandos, gest
 
 <div align="center">
 
-### Apoie o Desenvolvimento
-Se este projeto te ajudou, considere fazer uma doação para apoiar o desenvolvimento contínuo.
+### Support the Development
+If this project helped you, consider making a donation to support continuous development.
 
 [![Apoie com PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/ncp/payment/8V6WQCGN6HDCQ)
 
