@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Agente IA
+Comment=Assistente Desktop Multimodal Full Version
+Exec=/usr/bin/agenteia
+Icon=agenteia
+Terminal=false
+Type=Application
+Categories=Utility;Development;
+Keywords=AI;Assistant;Chat;Autonomous;
+StartupNotify=true
