@@ -1,4 +1,4 @@
-<!-- Erasmo Cardoso - Software Engineer | Electronics Specialist -->
+<!-- Erasmo Cardoso - Software Engineer |Electronics Technician -->
 <script>
     import { configStore } from "./store";
     import { t } from "./i18n";

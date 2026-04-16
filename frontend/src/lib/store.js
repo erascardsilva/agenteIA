@@ -1,4 +1,4 @@
-// Erasmo Cardoso - Software Engineer | Electronics Specialist
+// Erasmo Cardoso - Software Engineer |Electronics Technician
 import { writable } from 'svelte/store';
 import { GetConfig, SaveConfig } from '../../wailsjs/go/main/App';
 

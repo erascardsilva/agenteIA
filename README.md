@@ -109,7 +109,7 @@ sudo snap install agenteia
 ---
 
 **Erasmo Cardoso**<br>
-**Software Engineer | Electronics Specialist**
+**Software Engineer |Electronics Technician**
 
 ---
 
