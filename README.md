@@ -38,7 +38,7 @@ The project utilizes the following components:
     *   Support for **spd-say** on Linux for local system voices.
 *   **Persistence:** SQLite for chat history and local settings.
 *   **Compatibility:**
-    *   **Linux:** All distributions (Ubuntu, Fedora, Arch, Debian, etc.) via Snap, Flatpak, or native build.
+    *   **Linux:** Todas as distribuições (Ubuntu, Fedora, Arch, Debian, etc.) via Snap ou build nativo.
     *   **Windows:** Windows 10 and 11.
 
 ---
@@ -91,20 +91,39 @@ wails build -platform linux/amd64
 wails build -platform windows/amd64 -nsis
 ```
 
-### Linux (Flatpak)
-The project includes a script for automated Flatpak builds:
-```bash
-./build-flatpak.sh
-```
-
 ### Linux (Snap)
-The project is available on the Snap Store:
+A versão de loja (Snap) possui restrições de segurança (Sandbox) que podem limitar o Modo Autônomo.
 [![Available on the Snap Store](https://snapcraft.io/pt/dark/install.svg)](https://snapcraft.io/agenteia)
 
-Or install via terminal:
-```bash
-sudo snap install agenteia
-```
+---
+
+## 🚀 Versão Completa (Download Direto)
+
+Para utilizar todo o poder do **Agente Autônomo** (execução de comandos, gestão de arquivos e scripts), recomendamos o uso da versão completa disponível na pasta [build/bin](./build/bin).
+
+### 🪟 Windows
+1.  Acesse [build/bin](./build/bin).
+2.  Baixe o arquivo `agente-ia-installer.exe`.
+3.  Execute o instalador e siga os passos.
+
+### 🐧 Debian / Ubuntu / Mint (.deb)
+1.  Baixe o arquivo `agenteia_amd64.deb` em [build/bin](./build/bin).
+2.  Instale via terminal:
+    ```bash
+    sudo dpkg -i agenteia_amd64.deb
+    ```
+3.  Caso falte dependências: `sudo apt install -f`.
+
+### 🎩 Fedora / Red Hat / Arch (Binário)
+1.  Baixe o binário `agenteIA` em [build/bin](./build/bin).
+2.  Dê permissão de execução:
+    ```bash
+    chmod +x agenteIA
+    ```
+3.  Execute diretamente:
+    ```bash
+    ./agenteIA
+    ```
 
 ---
 

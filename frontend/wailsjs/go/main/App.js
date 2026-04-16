@@ -22,6 +22,10 @@ export function GetSystemVoices() {
   return window['go']['main']['App']['GetSystemVoices']();
 }
 
+export function IsSnap() {
+  return window['go']['main']['App']['IsSnap']();
+}
+
 export function OpenBrowser(arg1) {
   return window['go']['main']['App']['OpenBrowser'](arg1);
 }

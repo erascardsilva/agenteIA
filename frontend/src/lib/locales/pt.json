@@ -4,6 +4,7 @@
         "context": "Contexto",
         "settings": "Configurações",
         "about": "Sobre",
+        "full_version": "Versão Completa",
         "default_assistant_name": "Assistente"
     },
     "chat": {
@@ -48,7 +49,10 @@
             "Amigável": "Amigável",
             "Direto": "Direto",
             "Zombeteiro": "Zombeteiro"
-        }
+        },
+        "autonomous_mode": "Modo Autônomo",
+        "autonomous_mode_desc": "O **Modo Autônomo** permite que a IA execute múltiplas ferramentas sequencialmente para resolver tarefas complexas sem solicitar confirmação manual a cada passo.\n\n**Riscos:**\n- Consumo acelerado de tokens da API.\n- Execução de comandos e alterações em arquivos de forma automatizada.\n- Possibilidade de loops se a tarefa for ambígua.\n\nRecomendamos o uso com modelos mais inteligentes (GPT-4o, Gemini 1.5 Pro ou Claude 3.5).",
+        "autonomous_mode_confirm": "Entendo os riscos e desejo ativar"
     },
     "about": {
         "description": "O poder da inteligência artificial no seu controle.",
@@ -114,6 +118,11 @@
             "tips": {
                 "title": "Dica de Contexto",
                 "text": "O humor altera o tom das respostas. O modo 'Unlock' envia instruções adicionais no System Prompt para contornar restrições nativas do modelo."
+            },
+            "full_version": {
+                "modal_desc": "Você está usando a versão da **Snap Store**. Esta versão é executada em um ambiente isolado (Sandboxed) por segurança, o que impede que o Agente IA execute comandos no seu sistema host ou acesse arquivos protegidos.<br><br>Para liberar o poder total (**Agente Autônomo**, scripts, gestão de sistema), faça o download da **Versão Completa** no GitHub.",
+                "download_btn": "Baixar Versão Completa (GitHub)",
+                "keep_snap_reminder": "Você está usando a **Versão Completa** (Download Direto). Por favor, **mantenha a versão do Snap instalada** no seu sistema para continuar recebendo atualizações oficiais e apoiar as métricas de crescimento do projeto."
             }
         }
     }

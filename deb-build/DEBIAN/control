@@ -1,0 +1,7 @@
+Package: agenteia
+Version: 1.0.4
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Erasmo Cardoso <erasmo@vmi-informatica.com.br>
+Description: AgenteIA - Assistente Desktop Multimodal Full Version

@@ -31,6 +31,7 @@ type ContextSettings struct {
 	UserIdade     string `json:"userIdade"`
 	Funcoes       string `json:"funcoes"`
 	Regras        string `json:"regras"`
+	AutonomousMode bool   `json:"autonomousMode"`
 }
 
 func LoadConfig() (*Config, error) {

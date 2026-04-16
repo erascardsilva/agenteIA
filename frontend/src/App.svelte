@@ -10,9 +10,16 @@
 
   let currentTab = "chat";
   let showSettings = false;
+  let showFullVersion = false;
+  let showSnapReminder = false;
+  let isSnapMode = false;
   let settingsTab = "config";
 
   onMount(async () => {
+    isSnapMode = await window.go.main.App.IsSnap();
+    if (!isSnapMode) {
+      showSnapReminder = true;
+    }
     await configStore.load();
   });
 
@@ -111,6 +118,25 @@
         {$t("sidebar.about")}
       </button>
 
+      {#if isSnapMode}
+        <button
+          class="full-version-trigger"
+          on:click={() => (showFullVersion = true)}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z" />
+          </svg>
+          {$t("sidebar.full_version")}
+        </button>
+      {/if}
+
       <button
         class="support-trigger"
         on:click={() => window.go.main.App.OpenBrowser('https://www.paypal.com/ncp/payment/8V6WQCGN6HDCQ')}
@@ -141,6 +167,75 @@
   </section>
 
   <Settings bind:visible={showSettings} bind:currentTab={settingsTab} />
+
+  {#if showFullVersion}
+    <div class="modal-overlay full-version-overlay" on:click|self={() => (showFullVersion = false)}>
+      <div class="full-version-modal glass fade-in">
+        <header>
+          <div class="modal-title-wrapper">
+            <span class="modal-icon">🚀</span>
+            <h2>{$t("context.cards.full_version.modal_title")}</h2>
+          </div>
+          <button class="close-btn" on:click={() => (showFullVersion = false)}>&times;</button>
+        </header>
+
+        <section class="modal-content">
+          <p>{@html $t("context.cards.full_version.modal_desc")}</p>
+          
+          <div class="comparison-grid">
+            <div class="comp-item demo">
+              <span class="status-bad">✕</span>
+              <strong>Demo (Snap Store)</strong>
+              <p>Ambiente Isolado (Sandbox)</p>
+            </div>
+            <div class="comp-item full">
+              <span class="status-good">✓</span>
+              <strong>Full Version (GitHub)</strong>
+              <p>Poder Total & Autônomo</p>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <button class="download-btn-premium" on:click={() => {
+            window.go.main.App.OpenBrowser('https://github.com/erascardsilva/agenteIA/tree/master/build/bin');
+            showFullVersion = false;
+          }}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            {$t("context.cards.full_version.download_btn")}
+          </button>
+        </footer>
+      </div>
+    </div>
+  {/if}
+
+  {#if showSnapReminder}
+    <div class="modal-overlay" on:click|self={() => (showSnapReminder = false)}>
+      <div class="full-version-modal glass fade-in">
+        <header>
+          <div class="modal-title-wrapper">
+            <span class="modal-icon">💡</span>
+            <h2>Agente IA: Full Version</h2>
+          </div>
+          <button class="close-btn" on:click={() => (showSnapReminder = false)}>&times;</button>
+        </header>
+
+        <section class="modal-content">
+          <p style="text-align: center; font-size: 16px;">
+            {@html $t("context.cards.full_version.keep_snap_reminder")}
+          </p>
+        </section>
+
+        <footer>
+          <button class="download-btn-premium" on:click={() => (showSnapReminder = false)}>
+            OK, Entendi
+          </button>
+        </footer>
+      </div>
+    </div>
+  {/if}
 </main>
 
 <style>
@@ -263,5 +358,133 @@
       rgba(88, 166, 255, 0.05),
       transparent
     );
+  }
+
+  .full-version-trigger {
+    width: 100%;
+    padding: 12px 16px;
+    justify-content: flex-start;
+    background: linear-gradient(90deg, rgba(88, 166, 255, 0.1), transparent);
+    color: #58a6ff;
+    font-weight: 600;
+    margin-bottom: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(88, 166, 255, 0.1);
+  }
+
+  .full-version-trigger:hover {
+    background: rgba(88, 166, 255, 0.15);
+    border-color: rgba(88, 166, 255, 0.3);
+    color: white;
+  }
+
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+  }
+
+  .full-version-modal {
+    width: 90%;
+    max-width: 500px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .full-version-modal header {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .modal-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modal-icon {
+    font-size: 24px;
+  }
+
+  .full-version-modal h2 {
+    font-size: 20px;
+    margin: 0;
+    color: white;
+  }
+
+  .modal-content {
+    padding: 24px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .comp-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 16px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .status-bad { color: #f85149; font-size: 20px; display: block; margin-bottom: 8px; }
+  .status-good { color: #3fb950; font-size: 20px; display: block; margin-bottom: 8px; }
+
+  .comp-item strong { display: block; color: white; margin-bottom: 4px; }
+  .comp-item p { font-size: 12px; margin: 0; }
+
+  .full-version-modal footer {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .download-btn-premium {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #58a6ff, #1f6feb);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .download-btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(88, 166, 255, 0.3);
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 28px;
+    cursor: pointer;
   }
 </style>

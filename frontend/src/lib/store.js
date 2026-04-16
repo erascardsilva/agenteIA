@@ -17,7 +17,8 @@ function createConfigStore() {
             userProfissao: "",
             userIdade: "",
             funcoes: "",
-            regras: ""
+            regras: "",
+            autonomousMode: false
         },
         language: "en"
     });

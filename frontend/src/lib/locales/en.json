@@ -4,6 +4,7 @@
         "context": "Context",
         "settings": "Settings",
         "about": "About",
+        "full_version": "Full Version",
         "default_assistant_name": "Assistant"
     },
     "chat": {
@@ -48,7 +49,10 @@
             "Amigável": "Friendly",
             "Direto": "Direct",
             "Zombeteiro": "Mocking"
-        }
+        },
+        "autonomous_mode": "Autonomous Mode",
+        "autonomous_mode_desc": "**Autonomous Mode** allows the AI to execute multiple tools sequentially to solve complex tasks without requesting manual confirmation at each step.\n\n**Risks:**\n- Accelerated API token consumption.\n- Automated command execution and file changes.\n- Potential for loops if the task is ambiguous.\n\nWe recommend using more intelligent models (GPT-4o, Gemini 1.5 Pro, or Claude 3.5).",
+        "autonomous_mode_confirm": "I understand the risks and want to enable"
     },
     "about": {
         "description": "The power of artificial intelligence in your control.",
@@ -114,6 +118,11 @@
             "tips": {
                 "title": "Context Tip",
                 "text": "Mood alters the tone of responses. 'Unlock' mode sends additional instructions in the System Prompt to bypass native model restrictions."
+            },
+            "full_version": {
+                "modal_desc": "You are using the **Snap Store** version. This version runs in a secured, Sandboxed environment, which prevents AI Agent from executing host system commands or accessing protected files.<br><br>To unlock total power (**Autonomous Agent**, scripts, system management), download the **Full Version** on GitHub.",
+                "download_btn": "Download Full Version (GitHub)",
+                "keep_snap_reminder": "You are using the **Full Version** (Direct Download). Please **keep the Snap version installed** on your system to continue receiving official updates and support the project's growth metrics."
             }
         }
     }

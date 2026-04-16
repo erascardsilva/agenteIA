@@ -9,6 +9,7 @@ export namespace config {
 	    userIdade: string;
 	    funcoes: string;
 	    regras: string;
+	    autonomousMode: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new ContextSettings(source);
@@ -24,6 +25,7 @@ export namespace config {
 	        this.userIdade = source["userIdade"];
 	        this.funcoes = source["funcoes"];
 	        this.regras = source["regras"];
+	        this.autonomousMode = source["autonomousMode"];
 	    }
 	}
 	export class VoiceSettings {

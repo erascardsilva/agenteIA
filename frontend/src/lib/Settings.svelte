@@ -111,7 +111,32 @@
     }
 
     function handleKeydown(e) {
-        if (e.key === "Escape") visible = false;
+        if (e.key === "Escape") {
+            if (showAutonomousWarning) {
+                showAutonomousWarning = false;
+            } else {
+                visible = false;
+            }
+        }
+    }
+
+    let showAutonomousWarning = false;
+
+    function toggleAutonomous(e) {
+        const checked = e.target.checked;
+        if (checked) {
+            // Se está tentando ligar, prevent default e mostra o aviso
+            e.preventDefault();
+            showAutonomousWarning = true;
+        } else {
+            // Se está desligando, apenas atualiza
+            configStore.updateField("context.autonomousMode", false);
+        }
+    }
+
+    function confirmAutonomous() {
+        configStore.updateField("context.autonomousMode", true);
+        showAutonomousWarning = false;
     }
 </script>
 
@@ -502,6 +527,23 @@
                             </div>
                         </label>
                     </div>
+
+                    <div class="field toggle-item">
+                        <label for="autonomousMode" class="toggle-label">
+                            <span class="label-text"
+                                >{$t("settings.autonomous_mode")}</span
+                            >
+                            <div class="switch">
+                                <input
+                                    id="autonomousMode"
+                                    type="checkbox"
+                                    checked={$configStore.context.autonomousMode}
+                                    on:click={toggleAutonomous}
+                                />
+                                <span class="slider"></span>
+                            </div>
+                        </label>
+                    </div>
                 </section>
             {:else}
                 <section class="settings-content about-content">
@@ -590,6 +632,28 @@
                     >
                 </footer>
             {/if}
+        </div>
+    </div>
+{/if}
+
+{#if showAutonomousWarning}
+    <div class="modal-overlay warning-overlay" on:click|self={() => (showAutonomousWarning = false)}>
+        <div class="warning-modal glass fade-in">
+            <header>
+                <div class="warning-title">
+                    <span class="warning-icon">⚠️</span>
+                    <h4>{$t("settings.autonomous_mode")}</h4>
+                </div>
+                <button class="close-btn" on:click={() => (showAutonomousWarning = false)}>&times;</button>
+            </header>
+            <div class="warning-content">
+                <p>{@html $t("settings.autonomous_mode_desc").replace(/\n/g, '<br>')}</p>
+            </div>
+            <footer>
+                <button class="confirm-btn" on:click={confirmAutonomous}>
+                    {$t("settings.autonomous_mode_confirm")}
+                </button>
+            </footer>
         </div>
     </div>
 {/if}

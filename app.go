@@ -208,6 +208,9 @@ func (a *App) SendMessage(content string) (string, error) {
 	}
 
 	systemPrompt += " Use formatação Markdown. Responda apenas com a chamada da ferramenta caso decida utilizá-la. "
+	if a.config.Context.AutonomousMode {
+		systemPrompt += " [MODO_AUTONOMO_ATIVO]: Você tem permissão para executar sequências longas de ferramentas para atingir o objetivo. Prossiga passo a passo até concluir a tarefa totalmente. "
+	}
 	systemPrompt += " Gerenciamento de Buffer: Para saídas extensas (mais de 100 linhas), utilize processamento incremental com `write_file` seguido de `append_to_file` para garantir a integridade dos dados."
 
 	// Log do prompt para depuração
@@ -314,9 +317,13 @@ func (a *App) SendMessage(content string) (string, error) {
 	}
 
 	tools := ai.GetAvailableTools()
+	maxSteps := 5
+	if a.config.Context.AutonomousMode {
+		maxSteps = 20
+	}
 
-	// Loop de execução de ferramentas (limite de 5 para evitar loop infinito)
-	for i := 0; i < 5; i++ {
+	// Loop de execução de ferramentas
+	for i := 0; i < maxSteps; i++ {
 		var response string
 		var toolCalls []ai.ToolCall
 		var err error
@@ -484,4 +491,9 @@ func (a *App) GetAvailableModels(provider string) ([]string, error) {
 // OpenBrowser abre uma URL no navegador padrão do sistema
 func (a *App) OpenBrowser(url string) {
 	runtime.BrowserOpenURL(a.ctx, url)
+}
+
+// IsSnap retorna true se a aplicação estiver rodando dentro de um pacote Snap
+func (a *App) IsSnap() bool {
+	return os.Getenv("SNAP") != ""
 }

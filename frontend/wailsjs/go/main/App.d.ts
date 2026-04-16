@@ -12,6 +12,8 @@ export function GetConfig():Promise<config.Config>;
 
 export function GetSystemVoices():Promise<Array<string>>;
 
+export function IsSnap():Promise<boolean>;
+
 export function OpenBrowser(arg1:string):Promise<void>;
 
 export function SaveConfig(arg1:config.Config):Promise<void>;
